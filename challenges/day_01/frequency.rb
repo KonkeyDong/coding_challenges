@@ -1,4 +1,6 @@
-class Frequency
+require_relative '../base'
+
+class Frequency < Base
     def initialize(file)
         raise StandardError "File #{file} does not exist!" unless File.exist?(file)
         @file = file
