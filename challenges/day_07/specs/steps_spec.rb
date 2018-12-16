@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative '../steps'
+require_relative '../graph'
 
 describe Graph do
     let(:example_step1) { "Step C must be finished before step A can begin." }
@@ -122,6 +122,80 @@ describe Graph do
             
             @graph.send(:add_step_to_graph, example_step2)
             assert_equal @graph.instance_variable_get("@graph"), second_graph
+        end
+    end
+
+    describe "#can_complete_step?" do
+        it "should return true" do
+            @graph.send(:add_step_to_graph, example_step1)
+            assert_equal @graph.send(:can_complete_step?, "C"), true
+        end
+
+        it "should return false" do
+            @graph.send(:add_step_to_graph, example_step1)
+            assert_equal @graph.send(:can_complete_step?, "A"), false
+        end
+
+        it "should return true if no :prev hash" do
+            assert_equal @graph.send(:can_complete_step?, "C"), true
+        end
+    end
+
+    describe "#get_next_steps" do
+        it "should return an array of the next steps in a step" do
+            @graph.send(:add_step_to_graph, example_step2)
+            @graph.send(:add_step_to_graph, example_step1)
+            assert_equal @graph.send(:get_next_steps, "C"), %w(X A)
+        end
+    end
+
+    describe "#complete_step and #add_available_steps" do
+        it "should add 'C' to @completed_steps; add 'A' and 'X' to @available_steps" do
+            @graph.send(:add_step_to_graph, example_step1)
+            @graph.send(:add_step_to_graph, example_step2)
+            @graph.instance_variable_set("@available_steps", %w(C))
+            @graph.send(:complete_step, "C")
+            assert_equal @graph.instance_variable_get("@completed_steps"), %w(C)
+            
+            @graph.send(:add_available_steps, "C")
+            assert_equal @graph.instance_variable_get("@available_steps"), %w(A X)
+        end
+    end
+
+    describe "#remove_prerequisites" do
+        it "should remove 'C' from 'A' :prev hash" do
+            @graph.send(:add_step_to_graph, example_step1)
+            @graph.send(:add_step_to_graph, example_step2)
+            @graph.send(:remove_prerequisites, "A", "C")
+            
+            assert_equal @graph.instance_variable_get("@graph")["A"][:prev], {}
+            assert_equal @graph.instance_variable_get("@graph")["X"][:prev], { "C" => true }
+        end
+    end
+
+    describe "#traverse" do
+        it "should return 'CABDFE'" do
+            assert_equal @graph.traverse, "CABDFE"
+        end
+    end
+
+    describe "#find_no_prev_nodes" do
+        it "should return 'C'" do
+            @graph.send(:add_step_to_graph, example_step1)
+            @graph.send(:add_step_to_graph, example_step2)
+            assert_equal @graph.send(:find_no_prev_nodes), ["C"]
+        end
+    end
+
+    describe "#set_initial_available_steps" do
+        let(:example_step3) { "Step D must be finished before step T can begin." }
+
+        it "should return ['C', 'D']" do
+            @graph.send(:add_step_to_graph, example_step3)
+            @graph.send(:add_step_to_graph, example_step1)
+            assert_equal @graph.send(:set_initial_available_steps, 
+                                     @graph.send(:find_no_prev_nodes)), 
+                %w(C D)
         end
     end
 end
