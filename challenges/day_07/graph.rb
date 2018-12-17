@@ -66,7 +66,6 @@ class Graph < Base
             next unless can_complete_step?(step)
             unless step_assigned?(step)
                 @workers.merge!(step => @time_table[step])
-                # remove_from_available_steps(step)
             end
         end
     end
