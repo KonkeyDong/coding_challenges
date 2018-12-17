@@ -61,7 +61,7 @@ describe Graph do
         end
     end
 
-    describe "#default_tree" do
+    describe "#default_node" do
         let(:example_data1) {
             {
                 'X' => { 
@@ -77,21 +77,21 @@ describe Graph do
             )
         }
 
-        it "should add a hash similar to the example_default_tree value" do
+        it "should add a hash similar to the example_default_node value" do
             assert_equal @graph.instance_variable_get("@graph"), {}
-            @graph.send(:default_tree, "X")
+            @graph.send(:default_node, "X")
             assert_equal @graph.instance_variable_get("@graph"), example_data1
         end
 
         it "should NOT overwrite the tree if one already exists" do
             assert_equal @graph.instance_variable_get("@graph"), {}
-            @graph.send(:default_tree, "X")
+            @graph.send(:default_node, "X")
             assert_equal @graph.instance_variable_get("@graph"), example_data1
 
             @graph.send(:add_next, "X", "Y")
             assert_equal @graph.instance_variable_get("@graph"), example_data2
 
-            @graph.send(:default_tree, "X")
+            @graph.send(:default_node, "X")
             assert_equal @graph.instance_variable_get("@graph"), example_data2
         end
     end
@@ -180,11 +180,11 @@ describe Graph do
         end
     end
 
-    describe "#find_no_prev_nodes" do
+    describe "#find_no_previous_nodes" do
         it "should return 'C'" do
             add_step_to_graph(example_step1)
             add_step_to_graph(example_step2)
-            assert_equal @graph.send(:find_no_prev_nodes), ["C"]
+            assert_equal @graph.send(:find_no_previous_nodes), ["C"]
         end
     end
 
@@ -193,9 +193,7 @@ describe Graph do
             add_step_to_graph(example_step3)
             add_step_to_graph(example_step1)
 
-            assert_equal @graph.send(:set_initial_available_steps, 
-                                     @graph.send(:find_no_prev_nodes)), 
-                %w(D C)
+            assert_equal @graph.send(:set_initial_available_steps), %w(D C)
         end
     end
 
@@ -329,7 +327,7 @@ describe Graph do
     end
 
     def set_initial_available_steps
-        @graph.send(:set_initial_available_steps, @graph.send(:find_no_prev_nodes))
+        @graph.send(:set_initial_available_steps)
     end
 
     def set_number_of_workers(number_of_workers)

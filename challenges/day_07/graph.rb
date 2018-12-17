@@ -53,10 +53,7 @@ class Graph < Base
     end
 
     def elapse_worker_time(time)
-        @workers.keys.map do |step|
-            @workers[step] -= time
-        end
-
+        @workers.keys.map { |step| @workers[step] -= time }
         @counter += time
     end
 
@@ -64,9 +61,7 @@ class Graph < Base
         steps.map do |step|
             return unless workers_available?
             next unless can_complete_step?(step)
-            unless step_assigned?(step)
-                @workers.merge!(step => @time_table[step])
-            end
+            @workers.merge!(step => @time_table[step]) unless step_assigned?(step)
         end
     end
 
@@ -104,7 +99,7 @@ class Graph < Base
         end
         file_handle.close
 
-        set_initial_available_steps(find_no_prev_nodes)
+        set_initial_available_steps
     end
 
     def build_time_table(base_amount = 60)
@@ -113,20 +108,18 @@ class Graph < Base
                   .to_h
     end
 
-    def find_no_prev_nodes
+    def find_no_previous_nodes
         @graph.keys.select { |key, _| key if @graph[key][:prev] == {} }
     end
 
-    def set_initial_available_steps(steps)
-        @available_steps += steps
+    def set_initial_available_steps
+        @available_steps += find_no_previous_nodes
     end
 
     def complete_step(step)
         @completed_steps.push(step)
         remove_from_available_steps(step)
-        get_next_steps(step).each do |next_step|
-            remove_prerequisites(next_step, step)
-        end
+        get_next_steps(step).each { |next_step| remove_prerequisites(next_step, step) }
     end
 
     def remove_from_available_steps(step)
@@ -149,7 +142,6 @@ class Graph < Base
 
     def add_available_steps(step)
         get_next_steps(step).each { |next_step| @available_steps.push(next_step) if can_complete_step?(step) }
-
         @available_steps.uniq!
     end
 
@@ -168,11 +160,11 @@ class Graph < Base
     end
 
     def add_connection(start, final, link)
-        default_tree(start)
+        default_node(start)
         @graph[start][link] = @graph[start][link].merge(final => true)
     end
 
-    def default_tree(key)
+    def default_node(key)
         @graph[key] ||= { next: {}, prev: {} }
     end
 
