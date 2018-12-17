@@ -14,29 +14,86 @@ class Graph < Base
             @available_steps.sort.map do |step|
                 complete_step(step) if can_complete_step?(step)
                 add_available_steps(step)
-                if can_complete_step?(step) # restart the loop from the beginning since we're looping over an array copy
-                    break
-                end
+
+                 # restart the loop from the beginning since we're
+                 # looping over an array copy
+                break if can_complete_step?(step)
             end
         end
 
         @completed_steps.join('')
     end
 
-    def parallel_traverse
+    def parallel_traverse(number_of_workers = 5, time_base = 60)
         read_file
 
+        @number_of_workers = number_of_workers
+        @time_table = build_time_table(time_base)
+        while(!@available_steps.empty?) do
+            steps = @available_steps.sort
+            assign_workers(steps)
+            elapse_worker_time(minimum_worker_time)
+            finish_worker_tasks
+        end
 
+        @counter
     end
 
     private
+
+    def finish_worker_tasks
+        @workers.select { |worker, value| value.zero? }
+                .to_a
+                .map do |element| # [0] = step; [1] = value/time
+                    complete_step(element[0])
+                    add_available_steps(element[0])
+                end
+
+        @workers.reject! { |key, _| @workers[key].zero? }
+    end
+
+    def elapse_worker_time(time)
+        @workers.keys.map do |step|
+            @workers[step] -= time
+        end
+
+        @counter += time
+    end
+
+    def assign_workers(steps)
+        steps.map do |step|
+            return unless workers_available?
+            next unless can_complete_step?(step)
+            unless step_assigned?(step)
+                @workers.merge!(step => @time_table[step])
+                # remove_from_available_steps(step)
+            end
+        end
+    end
+
+    def minimum_worker_time
+        key = @workers.keys.min_by { |key| @workers[key] }
+        @workers[key]
+    end
+
+    def step_assigned?(step)
+        return true if @workers[step]
+        false
+    end
+
+    def workers_available?
+        return true if @workers.size < @number_of_workers
+        false
+    end
 
     def reset_class_variables
         @graph = {}
         @completed_steps = []
         @available_steps = []
         @time_table = build_time_table
-        @workers = []
+        @workers = {}
+        @number_of_workers = 0
+        @counter = 0
     end
 
     def read_file
@@ -51,9 +108,9 @@ class Graph < Base
         set_initial_available_steps(find_no_prev_nodes)
     end
 
-    def build_time_table
+    def build_time_table(base_amount = 60)
         ('A'..'Z').zip(1..26)
-                  .map { |key, value| [key, value + 60] }
+                  .map { |key, value| [key, value + base_amount] }
                   .to_h
     end
 
@@ -63,15 +120,18 @@ class Graph < Base
 
     def set_initial_available_steps(steps)
         @available_steps += steps
-        @available_steps.sort!
     end
 
     def complete_step(step)
         @completed_steps.push(step)
-        @available_steps.delete_at(@available_steps.index(step))
+        remove_from_available_steps(step)
         get_next_steps(step).each do |next_step|
             remove_prerequisites(next_step, step)
         end
+    end
+
+    def remove_from_available_steps(step)
+        @available_steps.delete_at(@available_steps.index(step))
     end
 
     def remove_prerequisites(step, prev_step)
