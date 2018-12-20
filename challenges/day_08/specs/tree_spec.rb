@@ -22,4 +22,11 @@ describe Tree do
             assert_equal @tree.sum_metadata, 138
         end
     end
+
+    describe "#sum_root" do
+        it "should return 66" do
+            @tree.build
+            assert_equal @tree.sum_root, 66
+        end
+    end
 end

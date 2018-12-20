@@ -27,7 +27,7 @@ class Tree < Base
     end
 
     def sum_root
-        @root.each
+        @root.add_root_value(@root)
     end
 
     private
