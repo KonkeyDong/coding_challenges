@@ -1,2 +1,3 @@
-# advent-of-code
-Advent of Code 2018 challenges
+# Coding Problems
+
+Various coding problems with their solutions.
