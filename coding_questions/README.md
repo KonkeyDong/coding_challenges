@@ -23,7 +23,7 @@ This gives me a chance to learn something new. I may never use `Lua` in a work e
          sudo luarocks install socket
          lua
       ``` 
-      Which will open a `Lua` prompt. Require the package to see if `Lua` returns `true`:
+      ... Which will open a `Lua` prompt. Require the package to see if `Lua` returns `true`:
       ```lua
          Lua 5.3.6  Copyright (C) 1994-2020 Lua.org, PUC-Rio
          > require "socket"
@@ -31,9 +31,10 @@ This gives me a chance to learn something new. I may never use `Lua` in a work e
       ```
 
    * Install the following packages using `sudo luarocks install <package>`:
-      * [debugger](https://luarocks.org/modules/3scale/debugger)
+      * [debugger](https://github.com/slembcke/debugger.lua)
       * [ldoc](https://luarocks.org/modules/steved/ldoc)
       * [luafilesystem](https://luarocks.org/modules/hisham/luafilesystem)
       * [penlight](https://luarocks.org/modules/tieske/penlight) - various functionality such as access to [functional programming techniques](https://lunarmodules.github.io/Penlight/manual/07-functional.md.html), a [pretty printer](https://lunarmodules.github.io/Penlight/libraries/pl.pretty.html), and [list comprehension](https://lunarmodules.github.io/Penlight/libraries/pl.comprehension.html).
+      * [busted](https://github.com/Olivine-Labs/busted) - Unit testing framework that looks similar to [Jest](https://jestjs.io/en/).
    * View if your packages are installed: `luarocks list`.
    * Use `luarocks --version` to verify that you're using `luarocks 3.5.0`.
