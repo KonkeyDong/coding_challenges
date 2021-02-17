@@ -5,7 +5,7 @@ local LinkedList = require 'data_structures.linked_list'
 require "busted"
 local seq = require "pl.seq"
 local pretty = require "pl.pretty"
-
+-- local dbg = require "debugger"
 
 describe("LinkedList", function()
     describe(":add()", function()
@@ -19,7 +19,7 @@ describe("LinkedList", function()
 
         it('should add 1 item to the list', function()
             local list = LinkedList:new({1})        
-            checkEnds(list)
+            check_ends(list)
         
             check_if_linking_is_correct(list, {1})
             assert.is_equal(list.count, 1)
@@ -29,7 +29,7 @@ describe("LinkedList", function()
         it('should add two items to list', function()
             local list = LinkedList:new({1, 2})
         
-            checkEnds(list)
+            check_ends(list)
             check_if_linking_is_correct(list, {1, 2})
         
             assert.is_equal(list.count, 2)
@@ -39,7 +39,7 @@ describe("LinkedList", function()
         it('should handle more than two items added to the list', function()
             local list = LinkedList:new({1, 2, 3})
 
-            checkEnds(list)
+            check_ends(list)
             check_if_linking_is_correct(list, {1, 2, 3})
 
             assert.is_equal(list.count, 3)
@@ -54,7 +54,7 @@ describe("LinkedList", function()
                     local list = LinkedList:new()
                     list:insert(1, position)
 
-                    checkEnds(list)
+                    check_ends(list)
                     check_if_linking_is_correct(list, {1})
                     assert.is_equal(list.count, 1)
                     assert.are.same(list:values(), {1})
@@ -108,9 +108,139 @@ describe("LinkedList", function()
             assert.are.same(list:values(), test_list)
         end)
     end)
+
+    describe('removing items from the linked list |', function()
+        describe(':remove_from_back()', function()
+            local METHOD_NAME = 'remove_from_back'
+
+            it('should do nothing if the list is empty', function()
+                remove_from_empty_list(METHOD_NAME)
+            end)
+
+            it('should destroy the nodes if one item remains', function()
+                remove_from_list_with_one_item(METHOD_NAME, {'bologna'})
+            end)
+
+            it('should remove the last node from the list', function()
+                remove_from_list_with_more_than_one_item(
+                    METHOD_NAME, 
+                    {'bologna', 'bogus', 'garbage'}, 
+                    {'bologna', 'bogus'}
+                )
+            end)
+        end)
+
+        describe(':remove_from_front()', function()
+            local METHOD_NAME = 'remove_from_front'
+
+            it('should do nothing if the list is empty', function()
+                remove_from_empty_list(METHOD_NAME)
+            end)
+
+            it('should destroy the nodes if one item remains', function()
+                remove_from_list_with_one_item(METHOD_NAME, {'bologna'})
+            end)
+
+            it('should remove the first node from the list', function()
+                remove_from_list_with_more_than_one_item(
+                    METHOD_NAME, 
+                    {'bologna', 'bogus', 'garbage'}, 
+                    {'bogus', 'garbage'}
+                )
+            end)
+        end)
+
+        function remove_from_empty_list(func)
+            local list = LinkedList:new()
+
+            assert.is_equal(list.count, 0)
+            LinkedList[func](list)
+            assert.is_equal(list.count, 0)
+        end
+
+        function remove_from_list_with_one_item(func, data)
+            local list = LinkedList:new(data)
+
+            assert.is_equal(list.count, #data)
+            LinkedList[func](list)
+            assert.is_equal(list.count, 0)
+            assert.is_nil(list.head)
+            assert.is_nil(list.tail)
+        end
+        
+        function remove_from_list_with_more_than_one_item(func, data, result_data)
+            local list = LinkedList:new(data)
+
+            local test_list = result_data
+            assert.is_equal(list.count, #data)
+            LinkedList[func](list)
+            check_if_linking_is_correct(list, test_list)
+            assert.is_equal(list.count, #result_data)
+            assert.are.same(list:values(), test_list)
+        end
+    end)
+
+    describe(':remove_at()', function()
+        local test_data = {1, 2, 3, 4, 5}
+
+        it('should remove from head if position is <= 1', function()
+            local result_data = {2, 3, 4, 5}
+
+            check_position(1, test_data, result_data)
+            check_position(0, test_data, result_data)
+            check_position(-1, test_data, result_data)
+        end)
+
+        it('should remove from tail if position is >= count', function()
+            local result_data = {1, 2, 3, 4}
+
+            check_position(5, test_data, result_data)
+            check_position(6, test_data, result_data)
+        end)
+
+        it('should remove node at specified position', function()
+            check_position(2, test_data, {1, 3, 4, 5})
+            check_position(3, test_data, {1, 2, 4, 5})
+            check_position(4, test_data, {1, 2, 3, 5})
+        end)
+
+        function check_position(position, data, result_data)
+            local list = LinkedList:new(data)
+
+            check_ends(list)
+            assert.is_equal(list.count, #data)
+            list:remove_at(position)
+            check_if_linking_is_correct(list, result_data)
+            assert.is_equal(list.count, #result_data)
+            assert.are.same(list:values(), result_data)
+        end
+    end)
+
+    describe(':find()', function()
+        it('should find the value and return the node', function()
+            local list = LinkedList:new({1, 2, 3})
+            local node = list:find(2)
+
+            assert.is_equal(node.value, 2)
+            assert.is_equal(node.prev.value, 1)
+            assert.is_equal(node.next.value, 3)
+        end)
+
+        it('should return false is nothing is found', function()
+            local list = LinkedList:new({1, 2, 3}) 
+
+            assert.is_false(list:find('bologna'))
+        end)
+
+        it('should return false if the list is empty', function()
+            local list = LinkedList:new()
+
+            assert.is_false(list:find('bologna'))
+        end)
+    end)
 end)
 
-function checkEnds(list)
+function check_ends(list)
     assert.is_nil(list.head.prev)
     assert.is_nil(list.tail.next)
 end
