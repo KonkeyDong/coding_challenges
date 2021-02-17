@@ -1,7 +1,5 @@
 LinkedList = {}
 
--- TODO: add remove logic
-
 -- local dbg =  require "debugger"
 local seq = require "pl.seq"
 
@@ -20,6 +18,25 @@ function LinkedList:new(values)
     end
 
     return new_object
+end
+
+function LinkedList:find(val)
+    if self.count == 0
+    then
+        return false
+    end
+
+    local pointer = self.head
+    while pointer do
+        if pointer.value == val
+        then
+            return pointer
+        end
+
+        pointer = pointer.next
+    end
+
+    return false
 end
 
 -- default add to tail
@@ -44,6 +61,11 @@ function LinkedList:add(val)
     self:increment_count()
 end
 
+-- alias for self:add(val)
+function LinkedList:insert_at_end(val)
+    self:add(val)
+end
+
 -- position will start at 1 to fit with the style of arrays in Lua starting at 1
 function LinkedList:insert(val, position)
     -- just add normally after tail
@@ -55,13 +77,14 @@ function LinkedList:insert(val, position)
 
     if position <= 1
     then
-        self:insert_before_head(val)
+        self:insert_at_front(val)
         return
     end
 
     self:_insert_at_position(val, position)
 end
 
+-- private function to better self-document
 function LinkedList:_insert_at_position(val, position)
     local pointer = self.head
     for i = 1, position - 1 do
@@ -76,7 +99,7 @@ function LinkedList:_insert_at_position(val, position)
 end
 
 -- alias for self:insert(1, x)
-function LinkedList:insert_before_head(val)
+function LinkedList:insert_at_front(val)
     local empty = nil
     local newHead = { value = val, next = self.head, prev = empty }
 
@@ -84,6 +107,86 @@ function LinkedList:insert_before_head(val)
     self.head = newHead
 
     self:increment_count()
+end
+
+function LinkedList:_check_if_one_or_fewer_items()  
+    if self.count == 0
+    then
+        return true
+    end
+    
+    if self.count == 1
+    then
+        self.head = nil
+        self.tail = nil
+        self.count = 0
+        return true
+    end
+
+    return false
+end
+
+function LinkedList:remove_from_back()
+    if self:_check_if_one_or_fewer_items()
+    then
+        return
+    end
+
+    local empty = nil
+    local pointer = self.tail
+
+    self.tail.prev.next = empty
+    self.tail = self.tail.prev
+    pointer = nil -- delete node
+
+    self:decrement_count()
+end
+
+function LinkedList:remove_from_front()
+    if self:_check_if_one_or_fewer_items()
+    then
+        return
+    end
+
+    local empty = nil
+    local pointer = self.head
+
+    self.head.next.prev = empty
+    self.head = self.head.next
+    pointer = nil -- delete node
+
+    self:decrement_count()
+end
+
+-- position will start at 1 to fit with the style of arrays in Lua starting at 1
+function LinkedList:remove_at(position)
+    if position <= 1
+    then
+        self:remove_from_front()
+        return
+    end
+
+    if position >= self.count
+    then
+        self:remove_from_back()
+        return
+    end
+
+    self:_remove_at_position(position)
+end
+
+-- private function to better self-document
+function LinkedList:_remove_at_position(position)
+    local pointer = self.head
+    for i = 1, position - 1 do
+        pointer = pointer.next
+    end
+
+    pointer.prev.next = pointer.next
+    pointer.next.prev = pointer.prev
+    pointer = nil
+
+    self:decrement_count()
 end
 
 function LinkedList:print()
