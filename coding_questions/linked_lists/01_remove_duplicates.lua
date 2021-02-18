@@ -3,8 +3,6 @@
 
 -- FOLLOW UP: how would you solve this provlem if a temporary buffer is not allowed?
 
-local tablex = require 'pl.tablex'
-
 -- SOLUTION 1: use a Set to store data
 local path = require 'pl.path'.abspath('../data_structures')
 package.path = package.path .. ';' .. path .. '/linked_list.lua'
