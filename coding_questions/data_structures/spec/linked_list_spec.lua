@@ -238,6 +238,30 @@ describe("LinkedList", function()
             assert.is_false(list:find('bologna'))
         end)
     end)
+
+    describe(':find_all_instances()', function()
+        it("should remove all x's", function()
+            remove_duplicates_helper({1, 2, 'x', 3, 'x', 'x', 4, 5}, {1, 2, 3, 4, 5})
+        end)
+
+        it('Should remove the x from the front and back correctly', function()
+            remove_duplicates_helper({'x', 1, 2, 3}, {1, 2, 3})
+        end)
+
+        it('should make an empty list', function()
+            remove_duplicates_helper({'x', 'x', 'x'}, {})
+        end)
+
+        function remove_duplicates_helper(data, result_data)
+            local list = LinkedList:new(data)
+            local result_data = result_data
+
+            list:remove_all_instances('x')
+            check_if_linking_is_correct(list, result_data)
+            assert.is_equal(list.count, #result_data)
+            assert.are.same(list:values(), result_data)
+        end
+    end)
 end)
 
 function check_ends(list)

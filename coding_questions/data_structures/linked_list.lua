@@ -39,6 +39,29 @@ function LinkedList:find(val)
     return false
 end
 
+function LinkedList:remove_all_instances(val)
+    local pointer = self.head
+    for i = 1, self.count do
+        if pointer.value == val
+        then
+            if pointer.prev == nil 
+            then 
+                pointer = pointer.next
+                self:remove_from_front()
+            elseif pointer.next == nil
+            then
+                self:remove_from_back()
+            else
+                local node = pointer
+                pointer = pointer.next
+                self:_remove_node(node)
+            end
+        else
+            pointer = pointer.next
+        end
+    end
+end
+
 -- default add to tail
 function LinkedList:add(val)
     -- Setting the value of a key/value pair directly to nil will just delete the key.
@@ -58,7 +81,7 @@ function LinkedList:add(val)
         self.tail = self.tail.next
     end
 
-    self:increment_count()
+    self:_increment_count()
 end
 
 -- alias for self:add(val)
@@ -95,7 +118,7 @@ function LinkedList:_insert_at_position(val, position)
     pointer.next.prev = node
     pointer.next = node
 
-    self:increment_count()
+    self:_increment_count()
 end
 
 -- alias for self:insert(1, x)
@@ -106,7 +129,7 @@ function LinkedList:insert_at_front(val)
     self.head.prev = newHead
     self.head = newHead
 
-    self:increment_count()
+    self:_increment_count()
 end
 
 function LinkedList:_check_if_one_or_fewer_items()  
@@ -139,7 +162,7 @@ function LinkedList:remove_from_back()
     self.tail = self.tail.prev
     pointer = nil -- delete node
 
-    self:decrement_count()
+    self:_decrement_count()
 end
 
 function LinkedList:remove_from_front()
@@ -155,7 +178,7 @@ function LinkedList:remove_from_front()
     self.head = self.head.next
     pointer = nil -- delete node
 
-    self:decrement_count()
+    self:_decrement_count()
 end
 
 -- position will start at 1 to fit with the style of arrays in Lua starting at 1
@@ -182,11 +205,15 @@ function LinkedList:_remove_at_position(position)
         pointer = pointer.next
     end
 
-    pointer.prev.next = pointer.next
-    pointer.next.prev = pointer.prev
-    pointer = nil
+    self:_remove_node(pointer)
+end
 
-    self:decrement_count()
+function LinkedList:_remove_node(node)
+    node.prev.next = node.next
+    node.next.prev = node.prev
+    node = nil
+
+    self:_decrement_count()
 end
 
 function LinkedList:print()
@@ -209,11 +236,11 @@ function LinkedList:values()
     return results
 end
 
-function LinkedList:increment_count()
+function LinkedList:_increment_count()
     self.count = self.count + 1
 end
 
-function LinkedList:decrement_count()
+function LinkedList:_decrement_count()
     self.count = self.count - 1
 end
 
