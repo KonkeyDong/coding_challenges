@@ -54,7 +54,7 @@ function LinkedList:remove_all_instances(val)
             else
                 local node = pointer
                 pointer = pointer.next
-                self:_remove_node(node)
+                self:remove_node(node)
             end
         else
             pointer = pointer.next
@@ -205,10 +205,10 @@ function LinkedList:_remove_at_position(position)
         pointer = pointer.next
     end
 
-    self:_remove_node(pointer)
+    self:remove_node(pointer)
 end
 
-function LinkedList:_remove_node(node)
+function LinkedList:remove_node(node)
     node.prev.next = node.next
     node.next.prev = node.prev
     node = nil
