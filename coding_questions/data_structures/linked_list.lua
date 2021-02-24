@@ -84,6 +84,29 @@ function LinkedList:add(val)
     self:_increment_count()
 end
 
+-- quick and dirty. only add if we have 2 or more nodes in the list.
+function LinkedList:add_by_node(node)
+    if self.count > 1
+    then
+        self.tail.next = node
+
+        -- calculate length
+        local count = 0
+        local pointer = self.head
+        while pointer.next do
+            count = count + 1
+            pointer = pointer.next
+        end
+
+        self.tail = pointer
+        self.count = count + 1
+
+        return true
+    else
+        return false
+    end
+end
+
 -- alias for self:add(val)
 function LinkedList:insert_at_end(val)
     self:add(val)

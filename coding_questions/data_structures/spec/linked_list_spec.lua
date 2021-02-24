@@ -262,6 +262,29 @@ describe("LinkedList", function()
             assert.are.same(list:values(), result_data)
         end
     end)
+
+    describe(':add_by_node()', function()
+        it('should have similar tails', function()
+            local list1 = LinkedList:new({1, 2, 3, 4, 5, 6, 7})
+            local node = list1:find(4)
+            local list2 = LinkedList:new({9, 8})
+            local result = list2:add_by_node(node)
+    
+            assert.is_equal(list2.count, 6)
+            assert.is_equal(list2.tail.value, 7)
+            assert.is_equal(list1.tail, list2.tail)
+            assert.is_equal(result, true)
+        end)
+
+        it('should not add a node if list count is smaller than 2', function()
+            local list1 = LinkedList:new({1, 2, 3, 4, 5, 6, 7})
+            local node = list1:find(4)
+            local list2 = LinkedList:new({9})
+            local result = list2:add_by_node(node)
+
+            assert.is_equal(result, false)
+        end)
+    end)
 end)
 
 function check_ends(list)
