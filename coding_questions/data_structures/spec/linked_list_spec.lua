@@ -1,13 +1,14 @@
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/linked_list.lua'
-local LinkedList = require 'data_structures.linked_list'
+local path = require 'pl.path'.abspath('..')
+package.path = package.path .. ';' .. path .. '/?.lua'
+local LinkedList = require 'linked_list'
 
 require "busted"
 local seq = require "pl.seq"
 local pretty = require "pl.pretty"
--- local dbg = require "debugger"
+-- local dbg = require 'debugger'
 
 describe("LinkedList", function()
+    io.write('\nLinkedList Tests: ')
     describe(":add()", function()
         it('should represent an empty double-linked list', function()
             local list = LinkedList:new()
@@ -103,6 +104,27 @@ describe("LinkedList", function()
 
             list:insert(17, 2)
             local test_list = {1, 2, 17, 3}
+            check_if_linking_is_correct(list, test_list)
+            assert.is_equal(list.count, 4)
+            assert.are.same(list:values(), test_list)
+        end)
+    end)
+
+    describe(':insert_at_front()', function()
+        it('should add an element to an empty list', function()
+            local list = LinkedList:new()
+            list:insert_at_front(1)
+
+            check_if_linking_is_correct(list, { 1 })
+            assert.is_equal(list.count, 1)
+            assert.are.same(list:values(), { 1 })
+        end)
+
+        it('should add an element to the front of a list', function()
+            local list = LinkedList:new({'A', 'B', 'C'})
+            list:insert_at_front(1)
+
+            local test_list = {1, 'A', 'B', 'C'}
             check_if_linking_is_correct(list, test_list)
             assert.is_equal(list.count, 4)
             assert.are.same(list:values(), test_list)

@@ -1,23 +1,20 @@
-LinkedList = {}
+local LinkedList = {}
+LinkedList.__index = LinkedList
 
--- local dbg =  require "debugger"
 local seq = require "pl.seq"
+-- local dbg = require 'debugger'
 
 function LinkedList:new(values)
-    local new_object = {
-        count = 0
-    }
-    self.__index = self
-     setmetatable(new_object, self)
+    self = setmetatable({ count = 0 }, LinkedList)
 
     if values ~= nil and #values > 0
     then
         for value in seq.list(values) do
-            new_object:add(value)
+            self:add(value)
         end
     end
 
-    return new_object
+    return self
 end
 
 function LinkedList:find(val)
@@ -150,6 +147,13 @@ end
 
 -- alias for self:insert(1, x)
 function LinkedList:insert_at_front(val)
+    if self.count == 0
+    then
+        -- dbg()
+        self:add(val)
+        return
+    end
+
     local empty = nil
     local newHead = { value = val, next = self.head, prev = empty }
 
