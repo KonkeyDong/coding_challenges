@@ -285,6 +285,16 @@ describe("LinkedList", function()
             assert.is_equal(result, false)
         end)
     end)
+
+    describe(':link_end_to_node()', function()
+        it('should set the next pointer of tail to a node', function()
+            local list = LinkedList:new({1, 2, 3, 4, 5})
+            local node = list:find(3)
+            list:link_end_to_node(node)
+
+            assert.are.same(list.tail.next, node)
+        end)
+    end)
 end)
 
 function check_ends(list)

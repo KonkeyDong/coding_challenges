@@ -107,6 +107,10 @@ function LinkedList:add_by_node(node)
     end
 end
 
+function LinkedList:link_end_to_node(node)
+    self.tail.next = node
+end
+
 -- alias for self:add(val)
 function LinkedList:insert_at_end(val)
     self:add(val)
