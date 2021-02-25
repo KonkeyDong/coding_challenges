@@ -31,7 +31,7 @@ function Stack:pop()
         return nil
     end
 
-    local value = self.list.tail.value
+    local value = self.list.head.value
     self.list:remove_from_front()
 
     return value
@@ -43,7 +43,7 @@ function Stack:peek()
         return nil
     end
         
-    return self.tail.value
+    return self.list.head.value
 end
 
 function Stack:is_empty()
