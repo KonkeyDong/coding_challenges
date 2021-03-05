@@ -2,13 +2,24 @@
 
 Various coding problems solved (primarily) in [Lua](https://www.lua.org/).
 
+---
+
 # Why Lua?
 
-This gives me a chance to learn something new. I may never use `Lua` in a work environment, but it is useful to learn if I ever work on embedded applications in C/C++. It's also a small and simple langauge.
+The language itself doesn't really matter as long as you understand pointers/references. I decided on Lua as I wanted to learn a new language.
 
 [Learn Lua in 15 minutes](http://tylerneylon.com/a/learn-lua/).
 
-# Stack
+---
+
+# Tech Stack
+
+If you *don't* want to download and compile Lua source code, download and use [Docker](https://www.docker.com/) (**WIP**):
+
+* Build the container: `docker build -t lua .`
+* Run the container: `docker run -it lua /bin/bash`
+
+If you *want* to download the Lua source on your machine, follow these steps:
 
 * [Lua 5.3.6](https://www.lua.org/ftp/)
    * Download `lua-5.3.6.tar.gz` and extract.
