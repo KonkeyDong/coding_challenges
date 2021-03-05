@@ -10,6 +10,8 @@
     should return the same values as it would if there were just a single stack).
 
     FOLLOW UP: Implement a function popAt(int index) which performs a pop operation on a specific sub-stack.
+        (does that mean return nil if the specific stack is empty, or go to the next lower one??? I guess you
+         have to ask your interviewer what they want.)
 ]]
 
 local SetOfStacks = {}
