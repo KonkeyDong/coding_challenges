@@ -17,7 +17,7 @@ The language itself doesn't really matter as long as you understand pointers/ref
 If you *don't* want to download and compile Lua source code, download and use [Docker](https://www.docker.com/):
 
 * Build the container: `docker build -t lua .` or `../cmd.bash build`
-* Exec into the container: `docker run -it -v "$(pwd):/app" lua /bin/bash` or `../cmd.bash exec`
+* Exec into the container: `docker run -it -v "$(pwd):/app/src" lua /bin/bash` or `../cmd.bash exec`
 
 If you *want* to download the Lua source on your machine, follow these steps:
 
