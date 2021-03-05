@@ -1,8 +1,8 @@
 FROM debian:latest
 
-ENV lua_version 5.3.6
-ENV luarocks_version 3.5.0
-ENV install_location /app/install
+ARG lua_version=5.3.6
+ARG luarocks_version=3.5.0
+ARG install_location=/app/install
 
 RUN apt update --yes && \
     apt upgrade --yes && \
@@ -18,7 +18,6 @@ RUN apt update --yes && \
 
 WORKDIR /app
 RUN mkdir -p ${install_location}
-COPY . /app
 
 # install Lua 5.3.6
 RUN wget http://www.lua.org/ftp/lua-${lua_version}.tar.gz -P ${install_location} && \
