@@ -13,8 +13,7 @@ local path = require 'pl.path'.abspath('../data_structures')
 package.path = package.path .. ';' .. path .. '/?.lua'
 local Stack = Stack or require 'stack'
 
-local dbg = require 'debugger'
-
+-- local dbg = require 'debugger'
 
 function swap(stack1, stack2)
     local temp = stack1:pop()
@@ -31,7 +30,7 @@ function both_not_empty(stack1, stack2)
     end
 end
 
--- if true, stack1:peek() value is smaller than stack2:peek()
+-- if true, stack1:peek() value is greater than than stack2:peek()
 function compare(stack1, stack2)
     if both_not_empty(stack1, stack2)
     then
@@ -47,25 +46,28 @@ function compare(stack1, stack2)
     return nil
 end
 
-local main_stack = Stack:new({2, 1, 3})
-local temp_stack = Stack:new()
+local unsorted_stack = Stack:new({15, 12, 44, 2, 5, 10})
+local sorted_stack = Stack:new()
 
-while not main_stack:is_empty() do
-    if temp_stack:is_empty()
+while not unsorted_stack:is_empty() do
+    if sorted_stack:is_empty()
     then
-        temp_stack:push(main_stack:pop())
+        sorted_stack:push(unsorted_stack:pop())
     end
 
-    local compare_result = compare(main_stack, temp_stack)
+    local compare_result = compare(unsorted_stack, sorted_stack)
     if compare_result
     then
-        swap(main_stack, temp_stack)
+        swap(unsorted_stack, sorted_stack)
+
+         -- Move back to left stack to compare again.
+         -- This essentially replicates a bubble sort.
+        unsorted_stack:push(sorted_stack:pop())
     else
-        temp_stack:push(main_stack:pop())
+        sorted_stack:push(unsorted_stack:pop())
     end
 end
 
--- Basic sort, but can't handle special cases. Will need to investigate.
-temp_stack.list:print()
-dbg()
-print('TEST')
+print("---  TOP OF STACK ---")
+sorted_stack.list:print()
+print('--- BOTTOM OF STACK ---')
