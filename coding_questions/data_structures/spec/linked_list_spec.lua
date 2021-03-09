@@ -1,6 +1,6 @@
 local path = require 'pl.path'.abspath('..')
 package.path = package.path .. ';' .. path .. '/?.lua'
-local LinkedList = require 'linked_list'
+local LinkedList = LinkedList or require 'linked_list'
 
 require "busted"
 local seq = require "pl.seq"
