@@ -42,55 +42,10 @@ describe('UndirectedGraph', function()
     end)
 
     describe(':search()', function()
-        -- see /images/graph.jpg for a drawing of the graph below.
-        function create_graph()
-            local graph = UndirectedGraph:new()
-            graph:add_edge(0, 6)
-            graph:add_edge(0, 2)
-            graph:add_edge(0, 1)
-            graph:add_edge(0, 5)
-
-            graph:add_edge(1, 0)
-            graph:add_edge(2, 0)
-
-            graph:add_edge(3, 5)
-            graph:add_edge(3, 4)
-
-            graph:add_edge(4, 5)
-            graph:add_edge(4, 6)
-            graph:add_edge(4, 3)
-
-            graph:add_edge(5, 3)
-            graph:add_edge(5, 4)
-            graph:add_edge(5, 0)
-
-            graph:add_edge(6, 0)
-            graph:add_edge(6, 4)
-
-            graph:add_edge(7, 8)
-
-            graph:add_edge(8, 7)
-
-            graph:add_edge(9, 11)
-            graph:add_edge(9, 10)
-            graph:add_edge(9, 12)
-
-            graph:add_edge(10, 9)
-
-            graph:add_edge(11, 9)
-            graph:add_edge(11, 12)
-
-            graph:add_edge(12, 11)
-            graph:add_edge(12, 9)
-
-            return graph
-        end
-
         it('should have a connection', function()
             local graph = create_graph()
             graph:search(1)
-            assert.is_true(graph:connected(1, 2))
-            assert.is_false(graph:connected(1, 9))
+
             assert.is_equal(graph:V(), 13)
             assert.is_equal(graph:E(), 14)
 
@@ -116,8 +71,9 @@ describe('UndirectedGraph', function()
         it('should have different connections', function()
             local graph = create_graph()
             graph:search(7)
-            assert.is_false(graph:connected(1, 3))
-            assert.is_true(graph:connected(7, 8))
+
+            assert.is_equal(graph:V(), 13)
+            assert.is_equal(graph:E(), 14)
 
             local test_data = { }
             test_data[0]  = false
@@ -138,4 +94,83 @@ describe('UndirectedGraph', function()
             assert.are.same(graph.depth_first_search.marked, test_data)
         end)
     end)
+
+    describe(':has_path_to()', function()
+        it('should return nil', function()
+            local graph = create_graph()
+            assert.is_nil(graph:has_path_to(1))
+        end)
+
+        it('should return true', function()
+            local graph = create_graph()
+            graph:search(1)
+            assert.is_true(graph:has_path_to(0)) -- connected path
+        end)
+
+        it('should return false', function()
+            local graph = create_graph()
+            graph:search(1)
+            assert.is_false(graph:has_path_to(7)) -- not connected path
+        end)
+    end)
+
+    describe(':path_to()', function()
+        it('should return nil', function()
+            local graph = create_graph()
+            assert.is_nil(graph:path_to(1))
+
+            graph:search(1)
+            assert.is_nil(graph:path_to(7))
+        end)
+
+        it('should return a list with the path from 1 to 4', function()
+            local graph = create_graph()
+            graph:search(1)
+            assert.are.same(graph:path_to(4), {1, 0, 6, 4}) -- path order from 1 to 4
+        end)
+    end)
 end)
+
+-- see /images/graph.jpg for a drawing of the graph below.
+function create_graph()
+    local graph = UndirectedGraph:new()
+    graph:add_edge(0, 6)
+    graph:add_edge(0, 2)
+    graph:add_edge(0, 1)
+    graph:add_edge(0, 5)
+
+    graph:add_edge(1, 0)
+    graph:add_edge(2, 0)
+
+    graph:add_edge(3, 5)
+    graph:add_edge(3, 4)
+
+    graph:add_edge(4, 5)
+    graph:add_edge(4, 6)
+    graph:add_edge(4, 3)
+
+    graph:add_edge(5, 3)
+    graph:add_edge(5, 4)
+    graph:add_edge(5, 0)
+
+    graph:add_edge(6, 0)
+    graph:add_edge(6, 4)
+
+    graph:add_edge(7, 8)
+
+    graph:add_edge(8, 7)
+
+    graph:add_edge(9, 11)
+    graph:add_edge(9, 10)
+    graph:add_edge(9, 12)
+
+    graph:add_edge(10, 9)
+
+    graph:add_edge(11, 9)
+    graph:add_edge(11, 12)
+
+    graph:add_edge(12, 11)
+    graph:add_edge(12, 9)
+
+    return graph
+end

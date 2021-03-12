@@ -37,13 +37,22 @@ function UndirectedGraph:search(source_vertex)
     self.depth_first_search = DepthFirstSearch:new(self, source_vertex)
 end
 
-function UndirectedGraph:connected(source_vertex, destination_vertex)
-    if not self.depth_first_search
+function UndirectedGraph:has_path_to(target_vertex)
+    if not self.depth_first_search or not self.depth_first_search.source_vertex
     then
-        self:search(source_vertex)
+        return nil
     end
 
-    return self.depth_first_search.marked[destination_vertex]
+    return self.depth_first_search:has_path_to(target_vertex)
+end
+
+function UndirectedGraph:path_to(target_vertex)
+    if not self:has_path_to(target_vertex)
+    then
+        return nil
+    end
+
+    return self.depth_first_search:path_to(target_vertex)
 end
 
 -- since this is undirectional, we have to update the linked list
@@ -59,10 +68,10 @@ function UndirectedGraph:add_edge(vertex, edge)
     else  
         self:_check_and_create_linked_list(edge, vertex)
         
-        local x = self:_check_and_add_edge(vertex, edge)
-        local y = self:_check_and_add_edge(edge, vertex)
+        local edge1 = self:_check_and_add_edge(vertex, edge)
+        local edge2 = self:_check_and_add_edge(edge, vertex)
 
-        if x or y
+        if edge1 or edge2
         then
             self:_increment_edge_count()
         end
@@ -78,6 +87,7 @@ function UndirectedGraph:_check_and_create_linked_list(vertex, edge)
     end
 end
 
+-- If true, we added a new edge. Otherwise, no new edge was created.
 function UndirectedGraph:_check_and_add_edge(vertex, edge)
     if not self.vertices[vertex]:find(edge)
     then
@@ -88,6 +98,7 @@ function UndirectedGraph:_check_and_add_edge(vertex, edge)
     return false
 end
 
+-- Return a table of adjacent values, if possible.
 function UndirectedGraph:adjacent(vertex)
     if not self.vertices[vertex]
     then
