@@ -14,8 +14,6 @@
     Programmer's note: just use D for dog and C for cat to keep this simplicity.
 ]]
 
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/?.lua'
 local AnimalQueue = Queue or require 'queue'
 
 -- local dbg = require 'debugger'

@@ -5,8 +5,6 @@
 local MyQueue = {}
 MyQueue.__index = MyQueue
 
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/?.lua'
 local Stack = Stack or require 'stack'
 
 function MyQueue:new()

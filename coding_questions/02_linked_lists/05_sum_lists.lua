@@ -10,9 +10,7 @@
 
 ]]
 
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/linked_list.lua'
-local LinkedList = require 'data_structures.linked_list'
+local LinkedList = require 'linked_list'
 
 local stringx = require "pl.stringx"
 local dbg = require 'debugger'

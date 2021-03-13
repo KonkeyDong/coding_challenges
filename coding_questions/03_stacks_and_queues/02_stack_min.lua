@@ -3,8 +3,6 @@
         min() which returns the minimum element? Push(), pop(), and min() should all operate in O(1) time
 ]]
 
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/?.lua'
 local Stack = Stack or require 'stack'
 
 -- Solution 1: cache the result (breaks the O(1) of push/pop)

@@ -1,9 +1,6 @@
 -- Implement a function that determines if a linked-list is a palindrome.
 
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/linked_list.lua'
-local LinkedList = require 'data_structures.linked_list'
-
+local LinkedList = LinkedList or require 'linked_list'
 local tablex = require 'pl.tablex'
 local stringx = require 'pl.stringx'
 local dbg = require "debugger"

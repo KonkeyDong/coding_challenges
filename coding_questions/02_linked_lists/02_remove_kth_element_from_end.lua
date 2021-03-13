@@ -1,14 +1,11 @@
 -- Return the kth node from the end: implement an algorithm to return the kth node from the end
 
-local dbg = require 'debugger'
+-- local dbg = require 'debugger'
 
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/linked_list.lua'
-local LinkedList = require 'data_structures.linked_list'
+local LinkedList = require 'linked_list'
 
 function kth_from_last(list, k)
     local pointer = list.tail
-    -- local length = list.count - k
     for i = 0, k - 1 do
         pointer = pointer.prev
     end

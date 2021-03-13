@@ -11,9 +11,7 @@
         OUTPUT: C
 ]]
 
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/linked_list.lua'
-local LinkedList = require 'data_structures.linked_list'
+local LinkedList = require 'linked_list'
 
 -- SOLUTION 1: use a hash map to store the reference
 function detect_loop(list)

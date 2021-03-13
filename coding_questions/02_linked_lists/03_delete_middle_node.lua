@@ -6,9 +6,7 @@
 -- input: node C from the linked list a->b->c->d->e->f
 -- result: nothing is returned, but the new list is: a->b->d->e->f
 
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/linked_list.lua'
-local LinkedList = require 'data_structures.linked_list'
+local LinkedList = require 'linked_list'
 
 -- solution 1 using double-linked list as a smart ass
 local list = LinkedList:new({'a', 'b', 'c', 'd', 'e', 'f'})

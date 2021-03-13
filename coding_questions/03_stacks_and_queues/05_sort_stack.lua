@@ -9,8 +9,6 @@
     push(), pop(), peek(), and is_empty().
 ]]
 
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/?.lua'
 local Stack = Stack or require 'stack'
 
 -- local dbg = require 'debugger'
