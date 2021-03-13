@@ -1,9 +1,17 @@
+--- A class for a doubly linked list.
+-- The front of the list is the head, while the back is the tail.
+-- @classmod LinkedList
+-- @author KonkeyDong
+
 local LinkedList = {}
 LinkedList.__index = LinkedList
 
 local seq = require "pl.seq"
 -- local dbg = require 'debugger'
 
+--- Constructor.
+-- @param values A table of values (numeric or string)
+-- @return instance of the object
 function LinkedList:new(values)
     self = setmetatable({ count = 0 }, LinkedList)
 
@@ -17,6 +25,9 @@ function LinkedList:new(values)
     return self
 end
 
+--- Locate a value in a linked list object.
+-- @param val A number or a string
+-- @return The node with the found value or false if no value is found.
 function LinkedList:find(val)
     if self.count == 0
     then
@@ -36,6 +47,8 @@ function LinkedList:find(val)
     return false
 end
 
+--- Remove all matched nodes in the linked list.
+-- @param val The value to remove.
 function LinkedList:remove_all_instances(val)
     local pointer = self.head
     for i = 1, self.count do
@@ -59,7 +72,8 @@ function LinkedList:remove_all_instances(val)
     end
 end
 
--- default add to tail
+--- Add a value to the tail (end) of the linked list.
+-- @param val The value to add to the end of the linked list.
 function LinkedList:add(val)
     -- Setting the value of a key/value pair directly to nil will just delete the key.
     -- To get around this, we set a variable to nil and use that in place.
@@ -108,12 +122,18 @@ function LinkedList:link_end_to_node(node)
     self.tail.next = node
 end
 
--- alias for self:add(val)
+--- Alias for :add().
+-- @param val The value to add to the end of the linked list.
 function LinkedList:insert_at_end(val)
     self:add(val)
 end
 
--- position will start at 1 to fit with the style of arrays in Lua starting at 1
+--- Insert a value at a specific position in the linked list.
+-- If position is greater than the internal count or internal count is less than and equal to 1,
+-- then add the data to the end of the list. If position is smaller than and equal to 1,
+-- add to the front of the list.
+-- @param val The value to add
+-- @param position The position in the list to create the node. The head node is position 1.
 function LinkedList:insert(val, position)
     -- just add normally after tail
     if self.count <= 1 or position >= self.count
@@ -145,7 +165,9 @@ function LinkedList:_insert_at_position(val, position)
     self:_increment_count()
 end
 
--- alias for self:insert(1, x)
+--- Insert value at the front of the linked list.
+-- Alias for :insert(x, 1)
+-- @param val The value to add to the front of the list.
 function LinkedList:insert_at_front(val)
     if self.count == 0
     then
@@ -180,6 +202,8 @@ function LinkedList:_check_if_one_or_fewer_items()
     return false
 end
 
+--- Remove the node from the tail of the linked list.
+-- Automatically relinks nodes.
 function LinkedList:remove_from_back()
     if self:_check_if_one_or_fewer_items()
     then
@@ -196,6 +220,8 @@ function LinkedList:remove_from_back()
     self:_decrement_count()
 end
 
+--- Remove the node from the head of the linked list. 
+-- Automatically relinks nodes.
 function LinkedList:remove_from_front()
     if self:_check_if_one_or_fewer_items()
     then
@@ -212,7 +238,10 @@ function LinkedList:remove_from_front()
     self:_decrement_count()
 end
 
--- position will start at 1 to fit with the style of arrays in Lua starting at 1
+--- Remove node from specified position. 
+-- If position less than and equal to 1, remove from the front.
+-- If position is greater than the internal count, remove from the end of the list.
+-- @param position The node at the given position with the head node being position 1.
 function LinkedList:remove_at(position)
     if position <= 1
     then
@@ -239,6 +268,8 @@ function LinkedList:_remove_at_position(position)
     self:remove_node(pointer)
 end
 
+--- Remove the given node from the linked list.
+-- @param node The node to remove.
 function LinkedList:remove_node(node)
     node.prev.next = node.next
     node.next.prev = node.prev
@@ -247,6 +278,7 @@ function LinkedList:remove_node(node)
     self:_decrement_count()
 end
 
+--- Print the linked list from head to tail.
 function LinkedList:print()
     local pointer = self.head
     while pointer do
@@ -255,6 +287,8 @@ function LinkedList:print()
     end
 end
 
+--- Return an array preserving the order of the linked list.
+-- @return An array (table) representing the linked list in order of traversal.
 function LinkedList:values()
     local pointer = self.head
     local results = {}
