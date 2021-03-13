@@ -2,7 +2,7 @@ local path = require 'pl.path'.abspath('..')
 package.path = package.path .. ';' .. path .. '/?.lua'
 local BinaryTree = BinaryTree or require 'binary_tree'
 
-local dbg = require 'debugger'
+-- local dbg = require 'debugger'
 local TEST_DATA = {5, 3, 7, 1, 2, 6, 8}
 
 

@@ -1,8 +1,6 @@
 local Stack = {}
 Stack.__index = Stack
 
-local path = require 'pl.path'.abspath('.')
-package.path = package.path .. ';' .. path .. '/?.lua'
 local LinkedList = LinkedList or require 'linked_list'
 
 local seq = require "pl.seq"

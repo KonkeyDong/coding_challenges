@@ -5,9 +5,6 @@ UndirectedGraph.__index = UndirectedGraph
 
 -- local dbg = require "debugger"
 
-local abspath = require('pl.path').abspath  --.abspath('..')
-package.path = package.path .. ';' .. abspath('..') .. '/?.lua'
-package.path = package.path .. ';' .. abspath('.') .. '/?.lua'
 local DepthFirstSearch = DepthFirstSearch or require 'depth_first_search'
 local LinkedList = LinkedList or require "linked_list"
 

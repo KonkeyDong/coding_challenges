@@ -4,9 +4,7 @@
 -- FOLLOW UP: how would you solve this provlem if a temporary buffer is not allowed?
 
 -- SOLUTION 1: use a Set to store data
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/linked_list.lua'
-local LinkedList = require 'data_structures.linked_list'
+local LinkedList = LinkedList or require 'linked_list'
 
 local list = LinkedList:new({1, 2, 2, 3, 3, 3})
 local set = {}

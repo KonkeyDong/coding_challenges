@@ -11,9 +11,7 @@
     output: 3->1->2->10->5->5->8
 ]]
 
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/linked_list.lua'
-local LinkedList = require 'data_structures.linked_list'
+local LinkedList = require 'linked_list'
 
 -- Solution 1: use two separate linked lists to store the lower and upper;
 --             Link the lists together and return the lower linked list.

@@ -4,6 +4,10 @@ ARG lua_version=5.3.6
 ARG luarocks_version=3.5.0
 ARG install_location=/app/install
 
+# Export paths to directories so lua knows where to find custom modules for loading
+ENV LUA_PATH_5_3=;/app/src/coding_questions/data_structures/?.lua;/app/src/coding_questions/data_structures/graphs/?.lua;;
+RUN export LUA_PATH_5_3
+
 RUN apt update --yes && \
     apt upgrade --yes && \
     apt install --yes \

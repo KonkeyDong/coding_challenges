@@ -17,8 +17,6 @@
 local SetOfStacks = {}
 SetOfStacks.__index = SetOfStacks
 
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/?.lua'
 local Stack = Stack or require 'stack'
 
 local seq = require "pl.seq"

@@ -1,8 +1,6 @@
 local DepthFirstSearch = {}
 DepthFirstSearch.__index = DepthFirstSearch
 
-local path = require 'pl.path'.abspath('../data_structures')
-package.path = package.path .. ';' .. path .. '/?.lua'
 local Stack = Stack or require 'stack'
 
 local List = require "pl.List"
