@@ -10,8 +10,8 @@ local seq = require "pl.seq"
 -- local dbg = require 'debugger'
 
 --- Constructor.
--- @param values A table of values (numeric or string)
--- @return instance of the object
+-- @param values A table of values (numeric or string).
+-- @return instance of the object.
 function LinkedList:new(values)
     self = setmetatable({ count = 0 }, LinkedList)
 
