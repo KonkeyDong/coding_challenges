@@ -1,9 +1,16 @@
+--- A class for a Trie data structure
+-- @classmod Trie
+-- @author KonkeyDong
+
 local Trie = {}
 Trie.__index = Trie
 
 local seq = require "pl.seq"
 -- local dbg = require 'debugger'
 
+--- Constructor.
+-- @param values An array of strings.
+-- @return Instance of the object.
 function Trie:new(values)
     self = setmetatable({
         root = {},
@@ -20,6 +27,8 @@ function Trie:new(values)
     return self
 end
 
+--- Add a new string to the Trie
+-- @param str A string to add to the Trie.
 function Trie:add(str)
     local pointer = self.root
     for char in str:sub(1, -2):gmatch( "." ) do
@@ -34,8 +43,10 @@ function Trie:add(str)
     pointer[self:_last_character(str)] = str
 end
 
--- if nothing is found, returns false.
--- Use get_partial_matchings() to find potential matches
+--- Find if a string is in a Trie.
+-- Sets the internal 'partial_find' variable while searching for the string.
+-- @param str The string to locate in the Trie. See the return. If false, the 'partial_find' variable will contain the the first characters found in the passed-in string.
+-- @return The string found. If the string wasn't found, returns false.
 function Trie:find(str)
     self.partial_find = '' -- reset
     local pointer = self.root
@@ -53,6 +64,9 @@ function Trie:find(str)
     return pointer[self:_last_character(str)]
 end
 
+--- Get an array of partial matchings.
+-- @param prefix A prefix containing the first few characters found. If nil (no parameter passed), uses the internal 'partial_find' variable.
+-- @return An array of strings that have a matching prefix. If no prefix can determine partial matches, returns false.
 function Trie:get_partial_matchings(prefix)
     if not prefix
     then 
@@ -94,6 +108,7 @@ function Trie:_recurse_over_listings(pointer, list)
     end
 end
 
+--- Reset the internal Trie data structure and the 'partial_find' variable.
 function Trie:clear()
     self.root = {}
     self.partial_find = ''
