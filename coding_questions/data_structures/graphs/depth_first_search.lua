@@ -14,7 +14,6 @@ function DepthFirstSearch:new(graph, source_vertex)
         count = 0
     }, DepthFirstSearch)
     
-    
     for i = 0, graph:V() do
         self.marked[i] = false
     end
@@ -35,7 +34,7 @@ function DepthFirstSearch:_dfs(graph, vertex)
             self.edge_to[point] = vertex
             self:_dfs(graph, point)
         end
-   end
+    end
 end
 
 function DepthFirstSearch:has_path_to(target_vertex)

@@ -1,5 +1,3 @@
-local path = require 'pl.path'.abspath('..')
-package.path = package.path .. ';' .. path .. '/?.lua'
 local Trie = Trie or require 'trie'
 
 require "busted"
