@@ -2,7 +2,7 @@ local BinaryTree = {}
 BinaryTree.__index = BinaryTree
 
 local seq = require "pl.seq"
--- local dbg = require 'debugger'
+local dbg = require 'debugger'
 
 local EMPTY = nil
 
@@ -62,14 +62,21 @@ function BinaryTree:_add_helper(value, node)
         return true
     end
 
-    if value < node.value
+    if not value
+    then
+        return true
+    end
+
+    -- print('value: ' .. tostring(value))
+    -- dbg()
+    if type(value) ~= 'nil' and value < node.value
     then
         if self:_add_helper(value, node.left)
         then
             self:_create_left_node(value, node)
             return false -- get out of if-statements
         end
-    elseif value > node.value
+    elseif type(value) ~= 'nil' and value > node.value
     then
         if self:_add_helper(value, node.right)
         then

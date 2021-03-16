@@ -7,6 +7,7 @@ local LinkedList = {}
 LinkedList.__index = LinkedList
 
 local seq = require "pl.seq"
+local List = require "pl.List"
 -- local dbg = require 'debugger'
 
 --- Constructor.
@@ -299,6 +300,12 @@ function LinkedList:values()
     end
 
     return results
+end
+
+--- Create an iterator to traverse the linked list
+-- @return An iterator that traverses the value returned from :values().
+function LinkedList:iter()
+    return List.new(self:values()):iter()
 end
 
 function LinkedList:_increment_count()
