@@ -17,7 +17,7 @@ exec()
 
 run_tests()
 {
-    docker run -it ${VOLUME} ${IMAGE} /bin/bash -c "cd /app/src/coding_questions/data_structures; busted"
+    docker run -it ${VOLUME} ${IMAGE} /bin/bash -c "busted /app/src/coding_questions/data_structures"
 }
 
 push()
