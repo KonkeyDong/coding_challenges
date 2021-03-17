@@ -21,6 +21,7 @@ RUN apt update --yes && \
         git
 
 WORKDIR /app
+# COPY . /app/src
 RUN mkdir -p ${install_location}
 
 # install Lua 5.3.6
