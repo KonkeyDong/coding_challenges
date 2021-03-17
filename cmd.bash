@@ -1,7 +1,8 @@
 #!/bin/bash
 
 CWD=$(dirname "$(readlink -f "$0")")
-IMAGE=lua:latest
+USERNAME=konkeydong
+IMAGE=${USERNAME}/lua:latest
 VOLUME=-v\ "$(pwd):/app/src"
 
 build()
@@ -19,6 +20,16 @@ run_tests()
     docker run -it ${VOLUME} ${IMAGE} /bin/bash -c "cd /app/src/coding_questions/data_structures; busted"
 }
 
+push()
+{
+    docker push ${IMAGE}
+}
+
+pull()
+{
+    docker pull ${IMAGE}
+}
+
 help()
 {
     cat << EOF
@@ -26,6 +37,8 @@ help()
     exec:      Exec into a container for direct interaction.
     run_tests: Run lua unit tests.
     help:      Display this help screen and exit.
+    push:      Push image to Docker Hub.
+    pull:      Pull image from Docker Hub.
 EOF
 
     exit 0
