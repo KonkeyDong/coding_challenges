@@ -1,12 +1,12 @@
 version: 2.1
 
 jobs:
-  build:
+  build: # workflow name from below
     working_directory: /app
     docker:
       - image: docker:17.05.0-ce-git # need a docker image that has the docker commands built in in order to run personal docker containers.
         auth:
-          username: konkeydong
+          username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD # circle/ci environment variables
     steps:
       - checkout
