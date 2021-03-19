@@ -7,7 +7,7 @@
 
 local LinkedList = require 'linked_list'
 local math = require 'math'
-local dbg = require 'debugger'
+-- local dbg = require 'debugger'
 
 -- solution 1: store references into hash
 function intersection(list1, list2)

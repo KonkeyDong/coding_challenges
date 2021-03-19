@@ -7,7 +7,7 @@
 
 local BinaryTree = BinaryTree or require 'binary_tree'
 TREE = BinaryTree:new()
-local dbg = require 'debugger'
+-- local dbg = require 'debugger'
 
 local sample = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 

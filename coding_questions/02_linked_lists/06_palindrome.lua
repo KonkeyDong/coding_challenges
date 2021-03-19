@@ -3,7 +3,7 @@
 local LinkedList = LinkedList or require 'linked_list'
 local tablex = require 'pl.tablex'
 local stringx = require 'pl.stringx'
-local dbg = require "debugger"
+-- local dbg = require "debugger"
 
 -- SOLUTION 1: hash map (kind of works, but also works with permutations as well)
 function palindrome(list)
