@@ -13,7 +13,7 @@
 local LinkedList = require 'linked_list'
 
 local stringx = require "pl.stringx"
-local dbg = require 'debugger'
+-- local dbg = require 'debugger'
 
 function calculate_sub_total_and_carry(sub_total)
     local carry = 0

@@ -21,7 +21,7 @@ local Stack = Stack or require 'stack'
 
 local seq = require "pl.seq"
 local List = require "pl.List"
-local dbg = require 'debugger'
+-- local dbg = require 'debugger'
 
 function SetOfStacks:new()
     self = setmetatable({

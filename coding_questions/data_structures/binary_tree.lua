@@ -2,7 +2,7 @@ local BinaryTree = {}
 BinaryTree.__index = BinaryTree
 
 local seq = require "pl.seq"
-local dbg = require 'debugger'
+-- local dbg = require 'debugger'
 
 local EMPTY = nil
 

@@ -12,7 +12,7 @@ Stack.__index = Stack
 local seq = require "pl.seq"
 local pretty = require 'pl.pretty'
 local math = require 'math'
-local dbg = require 'debugger'
+-- local dbg = require 'debugger'
 
 function Stack:new(size)
     size = size * 3
