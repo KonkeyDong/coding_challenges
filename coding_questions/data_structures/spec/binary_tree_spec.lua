@@ -87,7 +87,13 @@ describe('BinaryTree', function()
         it('should return the minimum value', function()
             local bt = BinaryTree:new(TEST_DATA)
 
-            assert.is_equal(bt:minimum(), 1)
+            assert.is_equal(bt:minimum(bt.root), 1)
+        end)
+
+        it('should return the minium value', function()
+            local bt = BinaryTree:new(TEST_DATA)
+
+            assert.is_equal(bt:minimum(bt.root.right), 6)
         end)
     end)
 
@@ -95,7 +101,13 @@ describe('BinaryTree', function()
         it('should return the maximum value', function()
             local bt = BinaryTree:new(TEST_DATA)
 
-            assert.is_equal(bt:maximum(), 8)
+            assert.is_equal(bt:maximum(bt.root), 8)
+        end)
+
+        it('should return the maximum value', function()
+            local bt = BinaryTree:new(TEST_DATA)
+
+            assert.is_equal(bt:maximum(bt.root.left), 3)
         end)
     end)
 

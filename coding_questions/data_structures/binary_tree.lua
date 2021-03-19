@@ -34,6 +34,8 @@ function BinaryTree:_create_node(value, node, direction)
         value = value
     }
 
+    node = setmetatable(node[direction], BinaryTree)
+
     self:_increment_count()
 end
 
@@ -117,15 +119,20 @@ function BinaryTree:_search_helper(value, node)
     end
 end
 
-function BinaryTree:minimum()
-    return self:_find_max_or_min('left', self.root).value
+function BinaryTree:minimum(node)
+    return self:_find_max_or_min('left', node).value
 end
 
-function BinaryTree:maximum()
-    return self:_find_max_or_min('right', self.root).value
+function BinaryTree:maximum(node)
+    return self:_find_max_or_min('right', node).value
 end
 
 function BinaryTree:_find_max_or_min(direction, node)
+    if not node
+    then
+        return nil
+    end
+
     local pointer = node
     while pointer[direction] do
         pointer = pointer[direction]
