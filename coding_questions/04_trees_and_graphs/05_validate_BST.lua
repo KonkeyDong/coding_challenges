@@ -4,9 +4,6 @@
     Implement a function to check if a binary tree is a binary search tree.
 ]]
 
-INT_MIN = -1 * ((2 ^ 64) - 1)
-INT_MAX = 2 ^ 64 - 1
-
 local BinaryTree = BinaryTree or require 'binary_tree'
 
 -- solution 1: since we're checking for a binary search tree, all left nodes should be smaller than

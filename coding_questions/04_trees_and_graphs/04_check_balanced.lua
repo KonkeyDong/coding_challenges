@@ -8,6 +8,7 @@
 
 local BinaryTree = BinaryTree or require 'binary_tree'
 local List = require 'pl.List'
+local const = const or require 'constants'
 -- local dbg = require 'debugger'
 
 -- Solution 1: recurse down and check heights on each node (slightly less efficient than solution 2, but it works)
@@ -35,12 +36,10 @@ function display(tree)
     print('Is the tree balanced? ' .. tostring(check_balance2(tree.root)))
 end
 
-INT_MIN = -1 * ((2 ^ 64) - 1)
-
 -- solution 2: Check if the tree is balanced at the same time as we're checking heights.
 function check_balance2(root)
     print()
-    return check_height(root) ~= INT_MIN
+    return check_height(root) ~= const.INT_MIN
 end
 
 function check_height(root)
@@ -50,22 +49,22 @@ function check_height(root)
     end
     
     local left_height = check_height(root.left)
-    if left_height == INT_MIN
+    if left_height == const.INT_MIN
     then
-        return INT_MIN
+        return const.INT_MIN
     end
     
     local right_height = check_height(root.right)
-    if right_height == INT_MIN
+    if right_height == const.INT_MIN
     then
-        return INT_MIN
+        return const.INT_MIN
     end
     
     local height_difference = math.abs(left_height - right_height)
     print('left: ' .. left_height .. ' | right_height: ' .. right_height)
     if height_difference > 1
     then
-        return INT_MIN
+        return const.INT_MIN
     else
         return math.max(left_height, right_height) + 1
     end

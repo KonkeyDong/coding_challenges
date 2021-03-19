@@ -9,6 +9,7 @@ Stack.__index = Stack
 
 local LinkedList = LinkedList or require 'linked_list'
 
+local const = const or require 'constants'
 local seq = require "pl.seq"
 local List = require "pl.List"
 -- local dbg = require 'debugger'
@@ -94,7 +95,7 @@ function Stack:min()
     
     if self.minimum.count == 0
     then
-        self.minimum:push(2 ^ 64)
+        self.minimum:push(const.INT_MAX)
     end
 
     return self.minimum.head.value
