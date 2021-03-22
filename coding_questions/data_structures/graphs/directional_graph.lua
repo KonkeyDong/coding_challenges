@@ -68,6 +68,20 @@ function DirectionalGraph:add_edge(source_vertex, target_vertex)
     self:_increment_edge_count()
 end
 
+function DirectionalGraph:remove_edge(source_vertex, target_vertex)
+    if self.vertices[source_vertex]
+    then
+        local linked_list = self.vertices[source_vertex]
+        local node = linked_list:find(target_vertex)
+
+        if node
+        then
+            linked_list:remove_all_instances(node.value)
+            self:_decrement_edge_count()
+        end
+    end
+end
+
 function DirectionalGraph:_check_and_create_linked_list(vertex, edge)
     if not self.vertices[vertex]
     then
@@ -132,6 +146,10 @@ end
 
 function DirectionalGraph:_increment_edge_count()
     self.edge_count = self.edge_count + 1
+end
+
+function DirectionalGraph:_decrement_edge_count()
+    self.edge_count = self.edge_count - 1
 end
 
 function DirectionalGraph:_increment_in_degree(vertex)
