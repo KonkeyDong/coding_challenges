@@ -5,6 +5,14 @@
 
 local LinkedList = {}
 LinkedList.__index = LinkedList
+-- LinkedList.__add = function(table1, table2) -- list1 + list2
+--     local new_list = LinkedList:new(table1:values())
+--     for _, v in ipairs(table2:values()) do
+--         new_list:add(v)
+--     end
+
+--     return new_list
+-- end
 
 local seq = require "pl.seq"
 local List = require "pl.List"
@@ -300,6 +308,17 @@ function LinkedList:values()
     end
 
     return results
+end
+
+--- Add linked lists.
+-- @return A copy of the contents of the linked lists.
+LinkedList.__add = function(table1, table2) -- list1 + list2
+    local new_list = LinkedList:new(table1:values())
+    for _, v in ipairs(table2:values()) do
+        new_list:add(v)
+    end
+
+    return new_list
 end
 
 --- Create an iterator to traverse the linked list
