@@ -24,6 +24,7 @@ function create_sample_graph()
     graph:add_edge('C', 'D')
     graph:add_edge('D', 'B')
     graph:add_edge('D', 'A')
+    -- graph:add_edge('F', 'D') -- uncomment to test if we have an infinite loop.
 
     return graph
 end
@@ -32,15 +33,24 @@ end
 function build_order(graph, input)
     local output = {}
     local reverse = graph:reverse()
-    
+    local continue_processing = true
+
     -- Do we still have projects?
     while #input > 0 do
+        if continue_processing
+        then
+            continue_processing = false -- if false again, we have an error (hacky, but it works)
+        else
+            return nil -- error
+        end
+
         for index, project in pairs(input) do
             -- project has no (blocking) dependencies: complete the project
             if #graph:adjacent(project) == 0
             then
                 input[index] = nil
                 table.insert( output, project )
+                continue_processing = true
 
                 -- loop through and signal to dependencies that projects have completed. 
                 for _, dependent in ipairs(reverse:adjacent(project)) do
@@ -55,7 +65,13 @@ function build_order(graph, input)
 end
 
 local result = build_order(create_sample_graph(), {'A', 'B', 'C', 'D', 'E', 'F'})
-for _, value in ipairs(result) do
-    io.write(value .. ' ')
-end
 
+if result
+then
+    for _, value in ipairs(result) do
+        io.write(value .. ' ')
+    end
+else
+    print('NO SOLUTION...')
+end
+print()
