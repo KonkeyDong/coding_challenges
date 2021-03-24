@@ -317,6 +317,27 @@ describe("LinkedList", function()
             assert.are.same(list.tail.next, node)
         end)
     end)
+
+    describe('metatables', function()
+        describe('__add()', function()
+            it('should copy the two linked lists into a new linked lists', function()
+                local list1 = LinkedList:new({1, 2, 3})
+                local list2 = LinkedList:new({4, 5, 6})
+                local new_list = list1 + list2
+
+                assert.are.same(list1:values(), {1, 2, 3})
+                assert.are.same(list2:values(), {4, 5, 6})
+                assert.are.same(new_list:values(), {1, 2, 3, 4, 5, 6})
+
+                new_list:remove_from_back()
+                new_list:remove_from_front()
+
+                assert.are.same(list1:values(), {1, 2, 3})
+                assert.are.same(list2:values(), {4, 5, 6})
+                assert.are.same(new_list:values(), {2, 3, 4, 5})
+            end)
+        end)
+    end)
 end)
 
 function check_ends(list)
