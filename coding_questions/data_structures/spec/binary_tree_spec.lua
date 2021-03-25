@@ -3,8 +3,9 @@ package.path = package.path .. ';' .. path .. '/?.lua'
 local BinaryTree = BinaryTree or require 'binary_tree'
 
 -- local dbg = require 'debugger'
-local TEST_DATA = {5, 3, 7, 1, 2, 6, 8}
 
+-- local dbg = require 'debugger'
+local TEST_DATA = {5, 3, 7, 1, 2, 6, 8}
 
 describe('BinaryTree', function()
     io.write('\nBinaryTree Tests: ')
@@ -137,6 +138,18 @@ describe('BinaryTree', function()
 
             assert.are.same(bt:in_order_traversal(), {1, 2, 3, 6, 7, 8})
             assert.is_equal(bt.count, 6)
+        end)
+    end)
+
+    describe(':get_node()', function()
+        it('should return the node', function()
+            local bt = BinaryTree:new(TEST_DATA)
+            local node = bt:get_node(7)
+
+            assert.is_equal(node.value, 7)
+            local root = BinaryTree:new({7, 6, 8}).root
+            node.up = nil -- remove the reference to the parents to match
+            assert.are.same(node, root)
         end)
     end)
 end)

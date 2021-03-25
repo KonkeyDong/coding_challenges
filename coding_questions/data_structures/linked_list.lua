@@ -321,7 +321,7 @@ LinkedList.__add = function(table1, table2) -- list1 + list2
     return new_list
 end
 
---- Create an iterator to traverse the linked list
+--- Create an iterator.
 -- @return An iterator that traverses the value returned from :values().
 function LinkedList:iter()
     return List.new(self:values()):iter()

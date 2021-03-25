@@ -94,12 +94,13 @@ end
 function BinaryTree:search(value)
     local node = self:_search_helper(value, self.root)
 
-    if node
-    then
-        return node.value
-    else
-        return nil
-    end
+    return node and node.value or nil
+end
+
+function BinaryTree:get_node(value)
+    local node = self:_search_helper(value, self.root)
+
+    return node and node or nil
 end
 
 function BinaryTree:_search_helper(value, node)
@@ -201,12 +202,7 @@ function BinaryTree:_get_parent_and_child_direction(node)
 end
 
 function BinaryTree:_no_leaves(node)
-    if not node.left and not node.right
-    then
-        return true
-    else
-        return false
-    end
+    return (not node.left and not node.right) and true or false
 end
 
 function BinaryTree:_one_leaf(node)
@@ -222,12 +218,7 @@ function BinaryTree:_one_leaf(node)
 end
 
 function BinaryTree:_two_leaves(node)
-    if node.left and node.right
-    then
-        return true
-    else
-        return false
-    end
+    return (node.left and node.right) and true or false
 end
 
 -- I opted for just returning data for testing reasons.
