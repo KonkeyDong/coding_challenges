@@ -6,7 +6,7 @@
     never differ by more than one.
 ]]
 
-local BinaryTree = BinaryTree or require 'binary_tree'
+local BinarySearchTree = BinarySearchTree or require 'binary_tree'
 local List = require 'pl.List'
 local const = const or require 'constants'
 -- local dbg = require 'debugger'
@@ -71,14 +71,14 @@ function check_height(root)
 end
 
 
-local tree = BinaryTree:new({1, 2, 3})
+local tree = BinarySearchTree:new({1, 2, 3})
 display(tree) -- false
 
-local tree = BinaryTree:new({5, 3, 7, 2, 4, 6, 8, 1, 9})
+local tree = BinarySearchTree:new({5, 3, 7, 2, 4, 6, 8, 1, 9})
 display(tree) -- true
 
-local tree = BinaryTree:new({5, 3, 7, 2, 4, 6, 8, 9})
+local tree = BinarySearchTree:new({5, 3, 7, 2, 4, 6, 8, 9})
 display(tree) -- true
 
-local tree = BinaryTree:new({5, 3, 8, 2, 4, 7, 9, 6, 10}) -- right side will have 1 depth longer than the left
+local tree = BinarySearchTree:new({5, 3, 8, 2, 4, 7, 9, 6, 10}) -- right side will have 1 depth longer than the left
 display(tree) -- true

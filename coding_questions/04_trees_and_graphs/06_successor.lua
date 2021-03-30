@@ -5,7 +5,7 @@
     node in a binary search tree. You may assume that each node has a link to its parent.
 ]]
 
-local BinaryTree = BinaryTree or require 'binary_tree'
+local BinarySearchTree = BinarySearchTree or require 'binary_tree'
 -- local dbg = require 'debugger'
 
 -- I'll admit, i didn't really understand the point of this question or what the author wanted....
@@ -30,5 +30,5 @@ function find_next(root)
     end
 end
 
-local tree = BinaryTree:new({5, 3, 7, 1, 2, 4, 6, 8, 9, 10})
+local tree = BinarySearchTree:new({5, 3, 7, 1, 2, 4, 6, 8, 9, 10})
 print(find_next(tree.root))
