@@ -1,12 +1,12 @@
-local BinaryTree = {}
-BinaryTree.__index = BinaryTree
+local BinarySearchTree = {}
+BinarySearchTree.__index = BinarySearchTree
 
 local seq = require "pl.seq"
 -- local dbg = require 'debugger'
 
 local EMPTY = nil
 
-function BinaryTree:new(values)
+function BinarySearchTree:new(values)
     self = setmetatable({
         count = 0, 
         root = {
@@ -14,7 +14,7 @@ function BinaryTree:new(values)
             right = EMPTY,
             value = EMPTY
         }
-    }, BinaryTree)
+    }, BinarySearchTree)
 
     if values ~= nil and #values > 0
     then
@@ -26,7 +26,7 @@ function BinaryTree:new(values)
     return self
 end
 
-function BinaryTree:_create_node(value, node, direction)
+function BinarySearchTree:_create_node(value, node, direction)
     node[direction] = {
         left = EMPTY,
         right = EMPTY,
@@ -34,20 +34,20 @@ function BinaryTree:_create_node(value, node, direction)
         value = value
     }
 
-    node = setmetatable(node[direction], BinaryTree)
+    node = setmetatable(node[direction], BinarySearchTree)
 
     self:_increment_count()
 end
 
-function BinaryTree:_create_left_node(value, node)
+function BinarySearchTree:_create_left_node(value, node)
     self:_create_node(value, node, 'left')
 end
 
-function BinaryTree:_create_right_node(value, node)
+function BinarySearchTree:_create_right_node(value, node)
     self:_create_node(value, node, 'right')
 end
 
-function BinaryTree:add(value)
+function BinarySearchTree:add(value)
     if self.count == 0
     then
         self.root.value = value
@@ -58,7 +58,7 @@ function BinaryTree:add(value)
     self:_add_helper(value, self.root)
 end
 
-function BinaryTree:_add_helper(value, node)
+function BinarySearchTree:_add_helper(value, node)
     if not node -- did we find the end of the tree?
     then
         return true
@@ -91,19 +91,19 @@ function BinaryTree:_add_helper(value, node)
 end
 
 -- I opted for returning value because of this: https://algs4.cs.princeton.edu/32bst/
-function BinaryTree:search(value)
+function BinarySearchTree:search(value)
     local node = self:_search_helper(value, self.root)
 
     return node and node.value or nil
 end
 
-function BinaryTree:get_node(value)
+function BinarySearchTree:get_node(value)
     local node = self:_search_helper(value, self.root)
 
     return node and node or nil
 end
 
-function BinaryTree:_search_helper(value, node)
+function BinarySearchTree:_search_helper(value, node)
     if not node 
     then 
         return nil 
@@ -120,15 +120,15 @@ function BinaryTree:_search_helper(value, node)
     end
 end
 
-function BinaryTree:minimum(node)
+function BinarySearchTree:minimum(node)
     return self:_find_max_or_min('left', node).value
 end
 
-function BinaryTree:maximum(node)
+function BinarySearchTree:maximum(node)
     return self:_find_max_or_min('right', node).value
 end
 
-function BinaryTree:_find_max_or_min(direction, node)
+function BinarySearchTree:_find_max_or_min(direction, node)
     if not node
     then
         return nil
@@ -142,7 +142,7 @@ function BinaryTree:_find_max_or_min(direction, node)
     return pointer
 end
 
-function BinaryTree:delete(value)
+function BinarySearchTree:delete(value)
     local node = self:_search_helper(value, self.root)
 
     if node
@@ -172,13 +172,13 @@ function BinaryTree:delete(value)
     end
 end
 
-function BinaryTree:_remove_no_leaf_node(node)
+function BinarySearchTree:_remove_no_leaf_node(node)
     local parent, direction = self:_get_parent_and_child_direction(node)
     parent[direction] = EMPTY
     self:_decrement_count()
 end
 
-function BinaryTree:_remove_one_leaf_node(node)
+function BinarySearchTree:_remove_one_leaf_node(node)
     local parent, direction = self:_get_parent_and_child_direction(node)
     local child = self:_one_leaf(node)
     child.up = parent
@@ -187,7 +187,7 @@ function BinaryTree:_remove_one_leaf_node(node)
     self:_decrement_count()
 end
 
-function BinaryTree:_get_parent_and_child_direction(node)
+function BinarySearchTree:_get_parent_and_child_direction(node)
     local parent = node.up
     local child = nil
 
@@ -201,11 +201,11 @@ function BinaryTree:_get_parent_and_child_direction(node)
     return parent, child
 end
 
-function BinaryTree:_no_leaves(node)
+function BinarySearchTree:_no_leaves(node)
     return (not node.left and not node.right) and true or false
 end
 
-function BinaryTree:_one_leaf(node)
+function BinarySearchTree:_one_leaf(node)
     if not node.left
     then
         return node.right
@@ -217,20 +217,20 @@ function BinaryTree:_one_leaf(node)
     end
 end
 
-function BinaryTree:_two_leaves(node)
+function BinarySearchTree:_two_leaves(node)
     return (node.left and node.right) and true or false
 end
 
 -- I opted for just returning data for testing reasons.
 -- These functions should be reduced somehow.
-function BinaryTree:in_order_traversal()
+function BinarySearchTree:in_order_traversal()
     local data = {}
     self:_in_order_traversal_helper(self.root, data)
 
     return data
 end
 
-function BinaryTree:_in_order_traversal_helper(node, data)
+function BinarySearchTree:_in_order_traversal_helper(node, data)
     if node
     then
         self:_in_order_traversal_helper(node.left, data)
@@ -239,14 +239,14 @@ function BinaryTree:_in_order_traversal_helper(node, data)
     end
 end
 
-function BinaryTree:pre_order_traversal()
+function BinarySearchTree:pre_order_traversal()
     local data = {}
     self:_pre_order_traversal_helper(self.root, data)
 
     return data
 end
 
-function BinaryTree:_pre_order_traversal_helper(node, data)
+function BinarySearchTree:_pre_order_traversal_helper(node, data)
     if node
     then
         table.insert(data, node.value)
@@ -255,14 +255,14 @@ function BinaryTree:_pre_order_traversal_helper(node, data)
     end
 end
 
-function BinaryTree:post_order_traversal()
+function BinarySearchTree:post_order_traversal()
     local data = {}
     self:_post_order_traversal_helper(self.root, data)
 
     return data
 end
 
-function BinaryTree:_post_order_traversal_helper(node, data)
+function BinarySearchTree:_post_order_traversal_helper(node, data)
     if node
     then
         self:_post_order_traversal_helper(node.left, data)
@@ -271,12 +271,32 @@ function BinaryTree:_post_order_traversal_helper(node, data)
     end
 end
 
-function BinaryTree:_increment_count()
+function BinarySearchTree:sum_node(node)
+    if not node
+    then
+        return 0 -- base case (additive identify property)
+    end
+
+    -- Note: caching the value only works if we don't remove any values from the tree.
+    -- That will need to be coded up later. For one of my problems, i'm not removing
+    -- any data from the tree; this will suffice.
+    -- if node.sum
+    -- then
+    --     return node.sum
+    -- end
+
+    local total = node.value + self:sum_node(node.left) + self:sum_node(node.right)
+    -- node.sum = total
+
+    return total
+end
+
+function BinarySearchTree:_increment_count()
     self.count = self.count + 1
 end
 
-function BinaryTree:_decrement_count()
+function BinarySearchTree:_decrement_count()
     self.count = self.count - 1
 end
 
-return BinaryTree
+return BinarySearchTree

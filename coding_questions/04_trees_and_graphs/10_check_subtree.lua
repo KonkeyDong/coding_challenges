@@ -9,7 +9,7 @@
     the two trees would be identical.
 ]]
 
-local BinaryTree = BinaryTree or require 'binary_tree'
+local BinarySearchTree = BinarySearchTree or require 'binary_tree'
 
 local dbg = require 'debugger'
 
@@ -83,12 +83,12 @@ function display2(tree1, tree2)
     print('[SOLUTION 2] Tree 1 has a subtree that is Tree2: ' .. tostring(contains_tree(tree1, tree2)))
 end
 
-local tree1 = BinaryTree:new({5, 3, 7, 6, 8, 1, 2})
-local tree2 = BinaryTree:new({7, 6, 8})
+local tree1 = BinarySearchTree:new({5, 3, 7, 6, 8, 1, 2})
+local tree2 = BinarySearchTree:new({7, 6, 8})
 local node1 = tree1:get_node(7)
 display(node1, tree2.root) -- true
 
-local tree3 = BinaryTree:new({7, 2, 1})
+local tree3 = BinarySearchTree:new({7, 2, 1})
 display(node1, tree3.root) -- false
 
 print()

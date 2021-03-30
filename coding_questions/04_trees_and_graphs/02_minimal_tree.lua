@@ -5,8 +5,8 @@
     write an algorithm to create a binary search tree with minimal height.
 ]]
 
-local BinaryTree = BinaryTree or require 'binary_tree'
-TREE = BinaryTree:new()
+local BinarySearchTree = BinarySearchTree or require 'binary_tree'
+TREE = BinarySearchTree:new()
 -- local dbg = require 'debugger'
 
 local sample = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}

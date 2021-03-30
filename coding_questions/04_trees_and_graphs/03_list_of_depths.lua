@@ -6,13 +6,13 @@
 ]]
 
 local LinkedList = LinkedList or require 'linked_list'
-local BinaryTree = BinaryTree or require 'binary_tree'
+local BinarySearchTree = BinarySearchTree or require 'binary_tree'
 local List = require 'pl.List'
 
 -- local dbg = require 'debugger'
 
 local linked_lists = {} -- store our linked lists. if the depth is 4, expect 4 linked lists
-local tree = BinaryTree:new({5, 2, 8, 1, 3, 6, 9, 4, 7, 10})
+local tree = BinarySearchTree:new({5, 2, 8, 1, 3, 6, 9, 4, 7, 10})
 
 
 -- Solution 1: build an array of linked lists. Create a new LinkedList once

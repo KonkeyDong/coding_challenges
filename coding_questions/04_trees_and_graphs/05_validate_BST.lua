@@ -4,7 +4,7 @@
     Implement a function to check if a binary tree is a binary search tree.
 ]]
 
-local BinaryTree = BinaryTree or require 'binary_tree'
+local BinarySearchTree = BinarySearchTree or require 'binary_tree'
 
 -- solution 1: since we're checking for a binary search tree, all left nodes should be smaller than
 --             all right nodes. So, we send a min and max variable and update the variable depending
@@ -32,9 +32,9 @@ function display(root)
     print('Is a BST: ', tostring(check_tree(root, nil, nil)))
 end
 
-local tree = BinaryTree:new({5, 3, 7, 1, 2, 4, 6, 8, 9, 10})
+local tree = BinarySearchTree:new({5, 3, 7, 1, 2, 4, 6, 8, 9, 10})
 display(tree.root) -- true
 
-local tree = BinaryTree:new({5, 3, 7, 1, 2, 4, 6, 8, 9, 10})
+local tree = BinarySearchTree:new({5, 3, 7, 1, 2, 4, 6, 8, 9, 10})
 tree.root.left.left.value = INT_MAX -- change a random left-side value to a large number to see if this algorithm works
 display(tree.root) -- false

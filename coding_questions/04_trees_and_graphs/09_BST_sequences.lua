@@ -8,9 +8,9 @@
 
 -- local dbg = require 'debugger'
 
-local BinaryTree = BinaryTree or require 'binary_tree'
+local BinarySearchTree = BinarySearchTree or require 'binary_tree'
 local LinkedList = LinkedList or require 'linked_list'
-local tree = BinaryTree:new({2, 1, 3})
+local tree = BinarySearchTree:new({2, 1, 3})
 
 function traverse(node)
     local result = {}
