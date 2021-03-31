@@ -5,14 +5,6 @@
 
 local LinkedList = {}
 LinkedList.__index = LinkedList
--- LinkedList.__add = function(table1, table2) -- list1 + list2
---     local new_list = LinkedList:new(table1:values())
---     for _, v in ipairs(table2:values()) do
---         new_list:add(v)
---     end
-
---     return new_list
--- end
 
 local seq = require "pl.seq"
 local List = require "pl.List"
@@ -279,7 +271,21 @@ end
 
 --- Remove the given node from the linked list.
 -- @param node The node to remove.
-function LinkedList:remove_node(node)
+function LinkedList:remove_node(node)   
+    -- back
+    if not node.next
+    then
+        self:remove_from_back()
+        return
+    end
+
+    -- front
+    if not node.prev
+    then
+        self:remove_from_front()
+        return
+    end
+
     node.prev.next = node.next
     node.next.prev = node.prev
     node = nil
@@ -289,11 +295,17 @@ end
 
 --- Print the linked list from head to tail.
 function LinkedList:print()
+    print()
+    print('FIRST - LAST')
+    print('<==========>')
+
     local pointer = self.head
     while pointer do
-        print(pointer.value)
+        io.write(pointer.value .. ' ')
         pointer = pointer.next
     end
+    print()
+    print()
 end
 
 --- Return an array preserving the order of the linked list.
