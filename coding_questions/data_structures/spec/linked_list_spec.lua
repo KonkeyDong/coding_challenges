@@ -261,6 +261,40 @@ describe("LinkedList", function()
         end)
     end)
 
+    describe(':remove_node()', function()
+        it('should handle removing a node from the front', function()
+            local list = LinkedList:new({1, 2, 3})
+            local node = list:find(1)
+            list:remove_node(node)
+
+            assert.is_equal(list.count, 2)
+        end)
+
+        it('should handle removing a node from the back', function()
+            local list = LinkedList:new({1, 2, 3})
+            local node = list:find(3)
+            list:remove_node(node)
+
+            assert.is_equal(list.count, 2)
+        end)
+
+        it('should handle removing a node from the middle', function()
+            local list = LinkedList:new({1, 2, 3})
+            local node = list:find(2)
+            list:remove_node(node)
+
+            assert.is_equal(list.count, 2)
+        end)
+
+        it('should handle removing a node if the list has a size of 1', function()
+            local list = LinkedList:new({1})
+            local node = list:find(1)
+            list:remove_node(node)
+
+            assert.is_equal(list.count, 0)
+        end)
+    end)
+
     describe(':find_all_instances()', function()
         it("should remove all x's", function()
             remove_duplicates_helper({1, 2, 'x', 3, 'x', 'x', 4, 5}, {1, 2, 3, 4, 5})
