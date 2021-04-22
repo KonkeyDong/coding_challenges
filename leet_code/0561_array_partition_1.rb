@@ -30,8 +30,17 @@
 
 # -------
 
+require 'byebug'
+
 # @param {Integer[]} nums
 # @return {Integer}
 def array_pair_sum(nums)
-    
+    nums.sort!
+    sum = 0
+
+    for i in (0...(nums.length)).step(2) do
+        sum += nums[i]
+    end
+
+    sum
 end
