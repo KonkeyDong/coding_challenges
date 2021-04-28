@@ -1,5 +1,71 @@
 local BitManipulations = {}
 
+-- helper function to create a string of either 0 or 1 bits
+function BitManipulations._specific_number_of_bits(amount, bit)
+    local amount = tostring(amount)
+    return string.rep(amount, bit)
+end
+
+function BitManipulations.eight_bit_1s()
+    return BitManipulations._specific_number_of_bits(8, 1)
+end
+
+function BitManipulations.eight_bit_0s()
+    return BitManipulations._specific_number_of_bits(8, 0)
+end
+
+function BitManipulations.sixteen_bit_1s()
+    return BitManipulations._specific_number_of_bits(16, 1)
+end
+
+function BitManipulations.sixteen_bit_0s()
+    return BitManipulations._specific_number_of_bits(16, 0)
+end
+
+function BitManipulations.thirty_two_bit_1s()
+    return BitManipulations._specific_number_of_bits(32, 1)
+end
+
+function BitManipulations.thirty_two_bit_0s()
+    return BitManipulations._specific_number_of_bits(32, 0)
+end
+
+function BitManipulations.sixty_four_bit_1s()
+    return BitManipulations._specific_number_of_bits(64, 1)
+end
+
+function BitManipulations.sixty_four_bit_0s()
+    return BitManipulations._specific_number_of_bits(64, 0)
+end
+
+-- Convert a decimal number (integer) to a binary string
+function BitManipulations.decimal_to_binary(num)
+    if type(num) ~= "number" then
+        return nil
+    end
+
+    num = math.floor(num)
+    local str = ""
+    local base = 2
+    
+    while num > 0 do
+        local remainder = num % base
+        str = remainder .. str
+        num = num // base
+    end
+    
+    return str
+end
+
+-- Convert a binary string to a decimal (integer)
+function BitManipulations.binary_to_decimal(binary_string)
+    if type(binary_string) ~= 'string' then
+        return nil
+    end
+
+    return tonumber(binary_string, 2)
+end
+
 -- Shift 1 over by i bits, creating a number that looks like 00010000.
 -- By performing an AND with num, we clear all bits other than the bit at bit i.
 -- Finally, we compare that to 0. If that new value is not zero, then
@@ -48,6 +114,22 @@ function BitManipulations.update_bit(num, i, bit_is_1)
     local value = bit_is_1 and 1 or 0
     local mask = ~(1 << i)
     return (num & mask) | (value << i)
+end
+
+-- clear bits between lower and upper bound (inclusive).
+-- ex: lower = 2, upper = 4
+-- return "11100011"
+function BitManipulations.clear_bits_in_range_mask(bit_size, lower, upper)
+    if bit_size < 1 then
+        return nil
+    end
+
+    local all_ones = math.floor(2 ^ bit_size) - 1
+    local left = all_ones << (upper + 1)
+    local right = ((1 << lower) - 1)
+    
+    -- all 1s, except for 0s between i and j
+    return left | right -- mask
 end
 
 return BitManipulations
