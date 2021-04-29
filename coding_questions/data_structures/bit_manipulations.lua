@@ -132,4 +132,14 @@ function BitManipulations.clear_bits_in_range_mask(bit_size, lower, upper)
     return left | right -- mask
 end
 
+function BitManipulations.most_significant_bit(number)
+    local bit = 0
+    while number > 0 do
+        bit = bit + 1
+        number = number >> 1
+    end
+
+    return bit
+end
+
 return BitManipulations
