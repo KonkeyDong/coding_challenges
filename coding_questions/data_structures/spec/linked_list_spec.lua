@@ -46,6 +46,21 @@ describe("LinkedList", function()
             assert.is_equal(list.count, 3)
             assert.are.same(list:values(), {1, 2, 3})
         end)
+
+        it('should handle adding table values from same table reference', function()
+            local values = {"Blue", "Red"}
+            local list = LinkedList:new()
+
+            list:add(values)
+            values[1], values[2] = values[2], values[1] -- swap with same table reference
+            list:add(values)
+
+            assert.is_equal(list.count, 2)
+            assert.are.same(list:values(), {
+                {"Blue", "Red"},
+                {"Red", "Blue"}
+            })
+        end)
     end)
 
     describe(':insert()', function()
@@ -108,6 +123,27 @@ describe("LinkedList", function()
             assert.is_equal(list.count, 4)
             assert.are.same(list:values(), test_list)
         end)
+
+        it('should handle inserting tables with the same reference', function()
+            local values = {"Blue", "Red", "Green"}
+            local list = LinkedList:new()
+
+            list:insert(values, 1) -- BRG
+            values[1], values[2] = values[2], values[1] -- swap with same table reference
+            list:insert(values, 2) -- RBG
+            values[1], values[3] = values[3], values[1] -- swap with same table reference
+            list:insert(values, 3) -- GBR
+            values[2], values[3] = values[3], values[2] -- swap with same table reference
+            list:insert(values, 2) -- GRB
+
+            assert.is_equal(list.count, 4)
+            assert.are.same(list:values(), {
+                {"Blue", "Red", "Green"},
+                {"Red", "Blue", "Green"},
+                {"Green", "Red", "Blue"},
+                {"Green", "Blue", "Red"},
+            })
+        end)
     end)
 
     describe(':insert_at_front()', function()
@@ -128,6 +164,24 @@ describe("LinkedList", function()
             check_if_linking_is_correct(list, test_list)
             assert.is_equal(list.count, 4)
             assert.are.same(list:values(), test_list)
+        end)
+
+        it('should handle inserting tables with the same reference', function()
+            local values = {"Blue", "Red"}
+            local list = LinkedList:new()
+
+            list:insert_at_front(values)
+            values[1], values[2] = values[2], values[1] -- swap with same table reference
+            list:insert_at_front(values)
+            values[1] = "Blue"
+            list:insert_at_front(values)
+
+            assert.is_equal(list.count, 3)
+            assert.are.same(list:values(), {
+                {"Blue", "Blue"},
+                {"Red", "Blue"},
+                {"Blue", "Red"},
+            })
         end)
     end)
 

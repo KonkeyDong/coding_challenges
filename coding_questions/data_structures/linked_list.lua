@@ -8,7 +8,6 @@ LinkedList.__index = LinkedList
 
 local seq = require "pl.seq"
 local List = require "pl.List"
--- local dbg = require 'debugger'
 
 --- Constructor.
 -- @param values A table of values (numeric or string).
@@ -73,9 +72,22 @@ function LinkedList:remove_all_instances(val)
     end
 end
 
+function LinkedList:_handle_table_input(val)
+    -- If passing straight tables, you may end up passing the same reference to
+    -- a table. changing that one reference will change ALL values in the linked list!
+    -- so, do a quick-and-dirty copy of the table to prevent this.
+    if type(val) == "table" then
+        val = {table.unpack(val)}
+    end
+
+    return val
+end
+
 --- Add a value to the tail (end) of the linked list.
 -- @param val The value to add to the end of the linked list.
 function LinkedList:add(val)
+    val = self:_handle_table_input(val)
+
     -- Setting the value of a key/value pair directly to nil will just delete the key.
     -- To get around this, we set a variable to nil and use that in place.
     local empty = nil 
@@ -159,6 +171,7 @@ function LinkedList:_insert_at_position(val, position)
         pointer = pointer.next
     end
 
+    val = self:_handle_table_input(val)
     local node = { value = val, next = pointer.next, prev = pointer}
     pointer.next.prev = node
     pointer.next = node
@@ -172,12 +185,13 @@ end
 function LinkedList:insert_at_front(val)
     if self.count == 0
     then
-        -- dbg()
         self:add(val)
         return
     end
 
     local empty = nil
+    val = self:_handle_table_input(val)
+
     local newHead = { value = val, next = self.head, prev = empty }
 
     self.head.prev = newHead
