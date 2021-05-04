@@ -19,8 +19,7 @@ local List = require "pl.List"
 -- @return Instance of the object.
 function Stack:new(values)
     self = setmetatable({ 
-        list = LinkedList:new(),
-        minimum = LinkedList:new()
+        list = LinkedList:new()
     }, Stack)
 
     if values ~= nil and #values > 0
@@ -36,11 +35,6 @@ end
 --- Push (add) a value to the top of the stack.
 -- @param value The value to push on top of the stack
 function Stack:push(value)
-    if self:min() == nil or self:min() >= value
-    then
-        self.minimum:insert_at_front(value)
-    end
-
     self.list:insert_at_front(value)
 end
 
@@ -54,11 +48,6 @@ function Stack:pop()
 
     local value = self.list.head.value
     self.list:remove_from_front()
-
-    if self:min() == value
-    then
-        self.minimum:remove_from_front()
-    end
 
     return value
 end
@@ -83,22 +72,6 @@ function Stack:is_empty()
     else
         return false
     end
-end
-
---- Get the smallest number pushed onto the stack.
--- @return The smallest number on the stack. If the stack is empty, returns nil.
-function Stack:min()
-    if self:is_empty()
-    then
-        return nil
-    end
-    
-    if self.minimum.count == 0
-    then
-        self.minimum:push(const.INT_MAX)
-    end
-
-    return self.minimum.head.value
 end
 
 --- Get the current stack count.
