@@ -2,6 +2,10 @@
     Permutations without dups
 
     Write a method to compute all permutations of a string of unique characters.
+
+    NOTE: This is similar to the next question "Permutations With Dups". I'd use the same
+          function below, but add a hash table. There might be a better way to solve it
+            without having to use a hash table, but I'll learn that later.
 ]]
 
 local Queue = Queue or require("queue")
