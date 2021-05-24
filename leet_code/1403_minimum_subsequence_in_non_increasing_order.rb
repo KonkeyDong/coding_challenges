@@ -32,5 +32,14 @@
 # @param {Integer[]} nums
 # @return {Integer[]}
 def min_subsequence(nums)
-    
+    sum = nums.sum
+    nums.sort_by! { |x| -x } # sort in descending order
+    sub_sum = 0
+
+    # loop through the sub arrays from start to current iteration (i).
+    # if our sub_sum is greater than (sum - sub_sum), we found our solution
+    nums.each_with_index do |x, i|
+        sub_sum += x
+        return nums[0..i] if sub_sum > sum - sub_sum
+    end
 end
