@@ -8,7 +8,7 @@
 
 -- local dbg = require 'debugger'
 
-local BinarySearchTree = BinarySearchTree or require 'binary_tree'
+local BinarySearchTree = BinarySearchTree or require 'binary_search_tree'
 local LinkedList = LinkedList or require 'linked_list'
 local tree = BinarySearchTree:new({2, 1, 3})
 
