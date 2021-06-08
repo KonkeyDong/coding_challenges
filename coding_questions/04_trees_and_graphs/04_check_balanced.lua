@@ -6,7 +6,7 @@
     never differ by more than one.
 ]]
 
-local BinarySearchTree = BinarySearchTree or require 'binary_tree'
+local BinarySearchTree = BinarySearchTree or require 'binary_search_tree'
 local List = require 'pl.List'
 local const = const or require 'constants'
 -- local dbg = require 'debugger'

@@ -5,7 +5,7 @@
     node in a binary search tree. You may assume that each node has a link to its parent.
 ]]
 
-local BinarySearchTree = BinarySearchTree or require 'binary_tree'
+local BinarySearchTree = BinarySearchTree or require 'binary_search_tree'
 -- local dbg = require 'debugger'
 
 -- I'll admit, i didn't really understand the point of this question or what the author wanted....

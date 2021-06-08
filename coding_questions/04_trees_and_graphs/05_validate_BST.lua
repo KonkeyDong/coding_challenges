@@ -4,7 +4,7 @@
     Implement a function to check if a binary tree is a binary search tree.
 ]]
 
-local BinarySearchTree = BinarySearchTree or require 'binary_tree'
+local BinarySearchTree = BinarySearchTree or require 'binary_search_tree'
 
 -- solution 1: since we're checking for a binary search tree, all left nodes should be smaller than
 --             all right nodes. So, we send a min and max variable and update the variable depending

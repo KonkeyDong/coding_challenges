@@ -8,7 +8,7 @@
 ]]
 
 local dbg = require 'debugger'
-local BinarySearchTree = BinarySearchTree or require 'binary_tree'
+local BinarySearchTree = BinarySearchTree or require 'binary_search_tree'
 local tree = BinarySearchTree:new({'A'})
 -- tree.root.value = 'A'
 tree.root.left = { value = 'B' }
